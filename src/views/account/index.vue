@@ -19,6 +19,7 @@
           />
         </template>
       </div>
+      <h1>Vos anciennes formations</h1>
     </ui-level>
   </ui-wrapper>
 </template>
@@ -31,5 +32,7 @@ import { userStore } from "../../store/user";
 const userInfoTitles = useUserInfos();
 const user = userStore();
 
-onMounted(() => user.handleUserSessionInfos());
+onMounted(() => {
+  user.handleUserSessionInfos();
+});
 </script>

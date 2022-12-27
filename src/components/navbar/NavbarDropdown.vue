@@ -24,6 +24,7 @@
         </n-icon>
       </ui-level>
       <n-avatar
+        v-if="!userInfoSession.avatar_url"
         round
         :style="{
           color: 'white',
@@ -36,6 +37,7 @@
             : "R"
         }}
       </n-avatar>
+      <n-avatar v-else :src="avatarPath" round></n-avatar>
     </ui-level>
   </n-dropdown>
 </template>
@@ -50,13 +52,14 @@ import { Component, computed, h } from "vue";
 import { useRouter } from "vue-router";
 import { userStore } from "../../store/user";
 
-defineProps<{
+const props = defineProps<{
   userInfoSession?: {
     username: string;
     website: string;
     avatar_url: string;
     full_name: string;
   };
+  avatarPath?: string | undefined;
 }>();
 
 const router = useRouter();
@@ -69,6 +72,7 @@ function userDropdownAction(event: "profile" | "logout") {
   }
 
   user.handleLogout();
+  router.push({ name: "Home" });
 }
 
 const renderIcon = (icon: Component) => {

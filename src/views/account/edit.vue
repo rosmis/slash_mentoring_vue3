@@ -11,6 +11,12 @@
         </router-link>
       </ui-level>
       <form v-if="user" class="form-widget" @submit.prevent="updateProfile">
+        <ui-profile-picture
+          :path="avatar_path"
+          @update:path="avatar_path = $event"
+          size="5"
+          class="rounded"
+        />
         <div>
           <label for="email">Email</label>
           <input

@@ -14,11 +14,11 @@
         Se connecter
       </router-link>
 
-      <!-- <template v-else-if="userInfoSession && userInfoSession.data"> -->
-
-      <NavbarDropdown v-else :user-info-session="user.data" />
-
-      <!-- </template> -->
+      <NavbarDropdown
+        v-else
+        :user-info-session="user.data"
+        :avatar-url="user.avatar_path"
+      />
     </ui-level>
   </ui-wrapper>
 </template>
