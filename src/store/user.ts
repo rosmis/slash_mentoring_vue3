@@ -18,7 +18,7 @@ interface UserData {
 
 interface UserInfos {
   data: UserData;
-  avatar_path: Blob | null;
+  avatar_img: string | null;
 }
 
 export const userStore = defineStore({
@@ -30,7 +30,7 @@ export const userStore = defineStore({
       full_name: null,
       website: null,
     },
-    avatar_path: null,
+    avatar_img: null,
   }),
   actions: {
     async handleSignIn(credentials: Credentials) {
@@ -74,14 +74,16 @@ export const userStore = defineStore({
 
       this.data = data;
 
-      if (data.avatar_url) {
-        const { data: image, error } = await supabase.storage
-          .from("avatars")
-          .download(data.avatar_url);
-        if (error) throw error;
+      if (data.avatar_url) this.downloadAvatar(data.avatar_url);
+    },
 
-        this.avatar_path = URL.createObjectURL(image);
-      }
+    async downloadAvatar(avatar_url: string | null) {
+      const { data: image, error } = await supabase.storage
+        .from("avatars")
+        .download(avatar_url);
+      if (error) throw error;
+
+      this.avatar_img = URL.createObjectURL(image);
     },
 
     async handleSignUp(credentials: Credentials) {

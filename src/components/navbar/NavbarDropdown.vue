@@ -37,7 +37,7 @@
             : "R"
         }}
       </n-avatar>
-      <n-avatar v-else :src="avatarPath" round></n-avatar>
+      <n-avatar v-else :src="avatarUrl" round></n-avatar>
     </ui-level>
   </n-dropdown>
 </template>
@@ -52,14 +52,14 @@ import { Component, computed, h } from "vue";
 import { useRouter } from "vue-router";
 import { userStore } from "../../store/user";
 
-const props = defineProps<{
+defineProps<{
   userInfoSession?: {
     username: string;
     website: string;
     avatar_url: string;
     full_name: string;
   };
-  avatarPath?: string | undefined;
+  avatarUrl?: string | null;
 }>();
 
 const router = useRouter();

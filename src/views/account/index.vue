@@ -15,7 +15,8 @@
         <template v-for="(key, userInfo) in user.data" :key="userInfo">
           <AuthUserInfo
             :user-info="key"
-            :user-info-title="userInfoTitles[userInfo]"
+            :user-info-title="userInfo"
+            :avatar-img="avatarImg"
           />
         </template>
       </div>
@@ -25,14 +26,14 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from "vue";
-import { useUserInfos } from "../../composables/auth/useUserInfo";
+import { computed, onMounted } from "vue";
 import { userStore } from "../../store/user";
 
-const userInfoTitles = useUserInfos();
 const user = userStore();
 
 onMounted(() => {
   user.handleUserSessionInfos();
 });
+
+const avatarImg = computed(() => user.avatar_img);
 </script>

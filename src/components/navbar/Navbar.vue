@@ -17,7 +17,7 @@
       <NavbarDropdown
         v-else
         :user-info-session="user.data"
-        :avatar-url="user.avatar_path"
+        :avatar-url="avatarUrl"
       />
     </ui-level>
   </ui-wrapper>
@@ -33,6 +33,8 @@ const user = userStore();
 window.$message = useMessage();
 
 onMounted(() => user.handleUserSessionInfos());
+
+const avatarUrl = computed(() => user.avatar_img);
 
 const navLinks = computed(() => {
   return [
