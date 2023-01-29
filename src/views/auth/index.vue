@@ -6,12 +6,7 @@
       <input type="password" placeholder="Password" v-model="password" />
     </div>
 
-    <button
-      @click="
-        user.handleSignIn({ email, password });
-        $router.push({ name: 'Dashboard' });
-      "
-    >
+    <button @click="user.handleSignIn({ email, password })">
       Se connecter
     </button>
     <button @click="user.handleOAuthLogin('google')">

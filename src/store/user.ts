@@ -59,6 +59,7 @@ export const userStore = defineStore({
         }
 
         window.$message.success("Connecté");
+        this.$router.push({ name: "Dashboard" });
       } catch (error: any) {
         console.error(`Une erreur s'est produite: ${error}`);
       }

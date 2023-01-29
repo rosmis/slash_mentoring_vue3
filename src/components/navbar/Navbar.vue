@@ -1,8 +1,15 @@
 <template>
-  <ui-wrapper>
+  <ui-wrapper class="navbar">
     <ui-level>
+      <router-link :to="{ name: 'Home' }">
+        <img
+          src="../../assets/SLASH_MENTORING_LOGO.png"
+          alt="slash mentoring logo"
+          class="w-20"
+        />
+      </router-link>
       <ui-level>
-        <router-link v-for="navLink in navLinks" :to="navLink.link">
+        <router-link v-for="navLink in navLinks" :to="{ name: navLink.link }">
           {{ navLink.name }}
         </router-link>
       </ui-level>
@@ -40,16 +47,22 @@ const navLinks = computed(() => {
   return [
     {
       name: "Tableau de bord",
-      link: "./dashboard",
+      link: "Dashboard",
     },
-    {
-      name: "Cours",
-      link: "./learning",
-    },
-    {
-      name: "À propos",
-      link: "./",
-    },
+    // {
+    //   name: "Cours",
+    //   link: "./learning",
+    // },
+    // {
+    //   name: "À propos",
+    //   link: "./",
+    // },
   ];
 });
 </script>
+
+<style scoped>
+.navbar {
+  box-shadow: 19px -9px 5px 12px rgb(0 0 0 / 15%);
+}
+</style>
