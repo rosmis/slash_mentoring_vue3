@@ -10,7 +10,7 @@
 
     <input
       :placeholder="placeholder"
-      :value="value"
+      :value="modelValue"
       :required="required"
       :readonly="readonly"
       :type="type"
@@ -46,11 +46,11 @@
           '!rounded-full': rounded,
         },
       ]"
-      @input="$emit('input', $event.target.value)"
+      @input="$emit('update:modelValue', $event.target.value)"
     />
 
     <span
-      v-if="value && cancelable"
+      v-if="modelValue && cancelable"
       class="text-gray-400 absolute hover:cursor-pointer hover:text-gray-600"
       @click="$emit('input', '')"
       :class="{
@@ -70,7 +70,7 @@ withDefaults(
   defineProps<{
     accent?: string;
     placeholder?: string;
-    value?: string | boolean | number;
+    modelValue?: string | boolean | number;
     icon?: string;
     cancelable?: boolean;
     size?: string;
