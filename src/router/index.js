@@ -3,6 +3,7 @@ import AccountEdit from '../views/account/edit.vue';
 import Account from '../views/account/index.vue';
 import Auth from '../views/auth/index.vue';
 import SignUp from '../views/auth/signup/index.vue';
+import Information from '../views/auth/information/index.vue';
 import Dashboard from '../views/dashboard/index.vue';
 import Home from '../views/Home.vue';
 import Training from '../views/training/_trainingId/index.vue';
@@ -13,6 +14,7 @@ const router = createRouter({
         {path: '/', name: 'Home', component: Home}, 
         {path: '/auth', name: 'Auth', component: Auth},
         {path: '/auth/signup', name: 'SignUp', component: SignUp},
+        {path: '/auth/information', name: 'Information', component: Information},
         {path: '/account', name: 'Account', component: Account},
         {path: '/account/edit', name: 'Account-edit', component: AccountEdit},
         {path: '/dashboard', name: 'Dashboard', component: Dashboard},

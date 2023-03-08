@@ -25,7 +25,7 @@
         },
         transparent
           ? 'bg-transparent hover:bg-black/5 focus-within:bg-black/5'
-          : 'bg-white border hover:border-gray-300 focus-within:border-gray-300',
+          : 'bg-white border border-gray-400 hover:border-black focus-within:border-black',
         {
           'pl-10': icon,
           'pr-10': reveal,
