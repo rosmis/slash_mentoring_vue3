@@ -1,5 +1,5 @@
 <template>
-  <ui-wrapper>
+  <ui-wrapper padded>
     <div>
       <h4>CE QUE NOUS PROPOSONS</h4>
       <h3 class="text-lg mb-6">

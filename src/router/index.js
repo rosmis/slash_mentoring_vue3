@@ -20,16 +20,15 @@ const router = createRouter({
     ]
 })
 
-// router.beforeEach(async (to, from, next) => {
-//     // redirect to login page if not logged in and trying to access a restricted page
-//     const publicPages = ['/'];
-//     const authRequired = !publicPages.includes(to.path);
+router.beforeEach((to, from, next) => {
 
-//     if (authRequired && !userSession) {
-//         next({
-//             name: 'Home'
-//         })
-//     }
-// });
+
+    if(to.path.includes('verify?token=')) {
+        next()
+    } else {
+        next()
+    }
+})
+
 
 export default router
