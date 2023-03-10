@@ -16,14 +16,9 @@
                             class="w-full"
                         />
 
-                        <p class="text-xl">
-                            Voici des Lives Mentoring qui pourraient vous
-                            intéresser …
-                        </p>
-
                         <div
                             v-if="trainings"
-                            class="w-full grid gap-4 grid-cols-2"
+                            class="w-full grid gap-8 grid-cols-2"
                         >
                             <TrainingCard
                                 v-for="training in trainings.data.data"

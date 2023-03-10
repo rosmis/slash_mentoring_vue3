@@ -1,42 +1,92 @@
 <template>
-  <router-link :to="{ name: 'Training', params: { id: training.id } }">
-    <ui-wrapper
-      v-if="training"
-      rounded
-      color="white"
-      class="cursor-pointer transition-shadow ring-1 ring-slate-900/5 hover:shadow-lg"
-    >
-      <ui-level class="flex-col" vertical-align="top">
-        <ui-level space="sm" align="start">
-          <ui-level
-            class="rounded-full bg-[#29387D] h-15 p-4 w-15"
-            align="center"
-          >
-            <img src="../../assets/camera_icon.png" />
-          </ui-level>
+    <router-link :to="{ name: 'Training', params: { id: training.id } }">
+        <div
+            v-if="training"
+            rounded
+            color="white"
+            class="cursor-pointer rounded-2xl h-65 transition-shadow ring-1 ring-slate-900/5 aspect-square relative hover:shadow-lg"
+        >
+            <ui-level
+                class="rounded-lg bg-red-400 p-2 top-2 left-2 z-10 absolute"
+                align="left"
+                space="sm"
+            >
+                <n-icon size="14" color="white">
+                    <Calendar />
+                </n-icon>
+                <p class="text-white text-xs">
+                    {{
+                        moment(training.attributes.date).format(
+                            "DD MMMM YYYY [à] HH[H]mm"
+                        )
+                    }}
+                </p>
+            </ui-level>
 
-          <p class="text-xl">{{ training.attributes.title }}</p>
-        </ui-level>
+            <div class="rounded-t-2xl h-4/6 wrapper overflow-hidden">
+                <div
+                    class="bg-cover h-full hover"
+                    :style="{
+                        backgroundImage: `url(${training.attributes.backgroundImage.data.attributes.formats.large.url})`,
+                    }"
+                ></div>
+            </div>
 
-        <p class="max-w-full truncate">{{ training.attributes.description }}</p>
+            <ui-wrapper class="bg-red-400 rounded-b-2xl h-2/6">
+                <ui-level align="left" class="h-full">
+                    <div class="rounded-full h-12 ring-white ring-2 w-12"></div>
 
-        <ui-level class="flex-col" vertical-align="top" space="xs">
-          <p>{{ training.attributes.trainer.data.attributes.firstName }}</p>
-          <p>{{ training.attributes.trainer.data.attributes.lastName }}</p>
-          <!-- <img
-          :src="training.trainer.data.attributes.profilePicture"
-          class="rounded-full h-10 w-10"
-        /> -->
-        </ui-level>
-      </ui-level>
-    </ui-wrapper>
-  </router-link>
+                    <ui-level class="flex-col" space="xs" vertical-align="top">
+                        <p class="text-lg text-white">
+                            {{ training.attributes.title }}
+                        </p>
+                        <p class="text-white">
+                            {{
+                                training.attributes.trainer.data.attributes
+                                    .firstName
+                            }}
+                            <span class="uppercase">
+                                {{
+                                    training.attributes.trainer.data.attributes
+                                        .lastName
+                                }}
+                            </span>
+                        </p>
+                    </ui-level>
+                </ui-level>
+            </ui-wrapper>
+        </div>
+    </router-link>
 </template>
 
 <script lang="ts" setup>
+import { CalendarNumberOutline as Calendar } from "@vicons/ionicons5";
+import moment from "moment";
 import { Training } from "../../types/training";
 
 defineProps<{
-  training?: Training;
+    training?: Training;
 }>();
 </script>
+
+<style scoped>
+.hover {
+    transition: 0.2s ease-in-out all;
+}
+.wrapper:hover .hover {
+    transform: scale(1.1);
+}
+
+.hover:hover .hover::before {
+    display: block;
+}
+.hover::before {
+    content: "";
+    display: none;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+</style>
