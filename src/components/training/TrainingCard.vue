@@ -7,9 +7,10 @@
             class="cursor-pointer rounded-2xl h-65 transition-shadow ring-1 ring-slate-900/5 aspect-square relative hover:shadow-lg"
         >
             <ui-level
-                class="rounded-lg bg-red-400 p-2 top-2 left-2 z-10 absolute"
+                class="rounded-lg p-2 top-2 left-2 z-10 absolute"
                 align="left"
                 space="sm"
+                :style="{ backgroundColor: color }"
             >
                 <n-icon size="14" color="white">
                     <Calendar />
@@ -32,7 +33,10 @@
                 ></div>
             </div>
 
-            <ui-wrapper class="bg-red-400 rounded-b-2xl h-2/6">
+            <ui-wrapper
+                class="rounded-b-2xl h-2/6"
+                :style="{ backgroundColor: color }"
+            >
                 <ui-level align="left" class="h-full">
                     <div class="rounded-full h-12 ring-white ring-2 w-12"></div>
 
@@ -66,6 +70,7 @@ import { Training } from "../../types/training";
 
 defineProps<{
     training?: Training;
+    color: string;
 }>();
 </script>
 

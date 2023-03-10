@@ -21,9 +21,14 @@
                             class="w-full grid gap-8 grid-cols-2"
                         >
                             <TrainingCard
-                                v-for="training in trainings.data.data"
+                                v-for="(training, index) in trainings.data.data"
                                 :key="training.id"
                                 :training="training"
+                                :color="
+                                    useTrainingCardColors()[
+                                        index % useTrainingCardColors().length
+                                    ]
+                                "
                             />
                         </div>
                     </ui-level>
@@ -37,6 +42,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
 import { useTrainings } from "../../composables/trainings/useTrainings";
+import { useTrainingCardColors } from "../../composables/utils/useTrainingCardColors";
 import { userStore } from "../../store/user";
 import { userSession } from "../../types/userSession";
 
