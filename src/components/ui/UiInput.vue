@@ -10,7 +10,7 @@
 
         <input
             :placeholder="placeholder"
-            :value="value"
+            :value="modelValue"
             :required="required"
             :readonly="readonly"
             :type="type"
@@ -46,13 +46,13 @@
                     '!rounded-full': rounded,
                 },
             ]"
-            @input="$emit('input', $event.target.value)"
+            @input="$emit('update:modelValue', $event.target.value)"
         />
 
         <span
-            v-if="value && cancelable"
+            v-if="modelValue && cancelable"
             class="text-gray-400 absolute hover:cursor-pointer hover:text-gray-600"
-            @click="$emit('input', '')"
+            @click="$emit('update:modelValue', '')"
             :class="{
                 'right-6': size === 'lg',
                 'right-4': !size,

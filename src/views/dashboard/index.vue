@@ -17,20 +17,26 @@
                         />
 
                         <div
-                            v-if="trainings"
+                            v-if="
+                                filteredTrainings && filteredTrainings.data.data
+                            "
                             class="w-full grid gap-8 grid-cols-2"
                         >
-                            <TrainingCard
+                            <template
                                 v-for="(training, index) in filteredTrainings
                                     .data.data"
                                 :key="training.id"
-                                :training="training"
-                                :color="
-                                    useTrainingCardColors()[
-                                        index % useTrainingCardColors().length
-                                    ]
-                                "
-                            />
+                            >
+                                <TrainingCard
+                                    :training="training"
+                                    :color="
+                                        useTrainingCardColors()[
+                                            index %
+                                                useTrainingCardColors().length
+                                        ]
+                                    "
+                                />
+                            </template>
                         </div>
                     </ui-level>
                     <TrainingPlanningCard class="w-1/3" />
@@ -61,10 +67,12 @@ const { data: trainings } = useQuery(["trainings"], () =>
 );
 
 const filteredTrainings = computed(() => {
+    if (!trainings.value) return undefined;
+
     if (!search.value) return trainings.value;
 
-    return trainings.value.data.filter((training) =>
-        training.data.attributes.title.toLowerCase().includes(search.value)
+    return trainings.value.data.data.filter((training) =>
+        training.attributes.title.toLowerCase().includes(search.value)
     );
 });
 
