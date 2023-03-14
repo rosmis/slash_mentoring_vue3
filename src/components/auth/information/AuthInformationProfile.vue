@@ -1,25 +1,46 @@
 <template>
-    <div class="w-6/10 flex flex-col justify-center items-center shadow-r min-h-90vh" v-if="modelValue">
+    <div
+        class="flex flex-col shadow-r min-h-90vh w-6/10 justify-center items-center"
+        v-if="modelValue"
+    >
         <div>
             <p class="text-sm text-gray-800">Vos coordonnées</p>
-            <UiInput class="w-88 mt-2" placeholder='email' v-model="email"></UiInput>
-            <UiInput class="w-88 mt-2" placeholder="+33 06 58 20 71 99"  v-model="phoneNumber"></UiInput>
+            <UiInput
+                class="mt-2 w-88"
+                placeholder="email"
+                v-model="email"
+            ></UiInput>
+            <UiInput
+                class="mt-2 w-88"
+                placeholder="06 58 20 71 99"
+                v-model="phoneNumber"
+            ></UiInput>
         </div>
         <div class="mt-8">
             <p class="text-sm text-gray-800">Votre identité</p>
-            <UiInput class="w-88 mt-2" placeholder="prénom" v-model="firstName"></UiInput>
-            <UiInput class="w-88 mt-2" placeholder="nom" v-model="lastName"></UiInput>
+            <UiInput
+                class="mt-2 w-88"
+                placeholder="prénom"
+                v-model="firstName"
+            ></UiInput>
+            <UiInput
+                class="mt-2 w-88"
+                placeholder="nom"
+                v-model="lastName"
+            ></UiInput>
         </div>
         <div class="mt-8">
             <p class="text-sm text-gray-800">Votre photo de profil</p>
-            <div class="w-88 shadow shadow-2xl shadow-gray-100 flex items-center p-8 rounded-xl">
-                <div class="h-24 w-24 border border-blue-900 border-2 rounded-full bg-gray-100 image">
-
-                </div>
-                <div class="h-8 w-8 bg-blue-900 ml-4 rounded-lg">
-                    
-                </div>
-                <a class="rounded-lg border border-blue-900 ml-8 text-blue-800 py-2 px-4 cursor-pointer">
+            <div
+                class="rounded-xl flex shadow p-8 shadow-2xl shadow-gray-100 w-88 items-center"
+            >
+                <div
+                    class="border rounded-full bg-gray-100 border-blue-900 border-2 h-24 w-24 image"
+                ></div>
+                <div class="rounded-lg bg-blue-900 h-8 ml-4 w-8"></div>
+                <a
+                    class="border rounded-lg cursor-pointer border-blue-900 ml-8 py-2 px-4 text-blue-800"
+                >
                     Enregistrer
                 </a>
             </div>
@@ -28,58 +49,58 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed } from "vue";
 
 const props = defineProps<{
-    modelValue: any,
-}>()
-const emit = defineEmits(['update:modelValue'])
+    modelValue: any;
+}>();
+const emit = defineEmits(["update:modelValue"]);
 
 const email = computed({
     get() {
-        return props.modelValue.email
+        return props.modelValue.email;
     },
     set(newValue: string) {
-        emit('update:modelValue', {
+        emit("update:modelValue", {
             ...props.modelValue,
-            email: newValue
-        })
-    }
-})
+            email: newValue,
+        });
+    },
+});
 
 const phoneNumber = computed({
     get() {
-        return props.modelValue.phoneNumber
+        return props.modelValue.phoneNumber;
     },
     set(newValue: string) {
-        emit('update:modelValue', {
+        emit("update:modelValue", {
             ...props.modelValue,
-            phoneNumber: newValue
-        })
-    }
-})
+            phoneNumber: newValue,
+        });
+    },
+});
 
 const firstName = computed({
     get() {
-        return props.modelValue.firstName
+        return props.modelValue.firstName;
     },
     set(newValue: string) {
-        emit('update:modelValue', {
+        emit("update:modelValue", {
             ...props.modelValue,
-            firstName: newValue
-        })
-    }
-})
+            firstName: newValue,
+        });
+    },
+});
 
 const lastName = computed({
     get() {
-        return props.modelValue.lastName
+        return props.modelValue.lastName;
     },
     set(newValue: string) {
-        emit('update:modelValue', {
+        emit("update:modelValue", {
             ...props.modelValue,
-            lastName: newValue
-        })
-    }
-})
+            lastName: newValue,
+        });
+    },
+});
 </script>
