@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import About from '../views/about/index.vue';
 import AccountEdit from '../views/account/edit.vue';
 import Account from '../views/account/index.vue';
 import Auth from '../views/auth/index.vue';
@@ -11,6 +12,7 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         {path: '/', name: 'Home', component: Home}, 
+        {path: '/about', name: 'About', component: About}, 
         {path: '/auth', name: 'Auth', component: Auth},
         {path: '/auth/signup', name: 'SignUp', component: SignUp},
         {path: '/account', name: 'Account', component: Account},
