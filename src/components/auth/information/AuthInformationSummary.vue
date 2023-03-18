@@ -5,11 +5,7 @@
         <div>
             <p class="text-sm text-gray-800">Vos coordonnées</p>
             <UiInput class="mt-2 w-88" disabled v-model="user.email"></UiInput>
-            <UiInput
-                class="mt-2 w-88"
-                disabled
-                v-model="user.phoneNumber"
-            ></UiInput>
+            <UiInput class="mt-2 w-88" disabled v-model="user.phone"></UiInput>
         </div>
         <div class="mt-8">
             <p class="text-sm text-gray-800">Votre identité</p>

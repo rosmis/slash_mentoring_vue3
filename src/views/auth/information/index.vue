@@ -16,9 +16,7 @@
             :user="user"
         ></AuthInformationSummary>
 
-        <div
-            class="flex flex-col min-h-90vh w-4/10 justify-center items-center"
-        >
+        <div class="flex flex-col mt-30vh w-4/10 items-center">
             <n-steps
                 vertical
                 class="w-1/2"
@@ -71,15 +69,45 @@
 <script setup lang="ts">
 import { NStep, NSteps, SelectGroupOption, SelectOption } from "naive-ui";
 import { SelectMixedOption } from "naive-ui/es/select/src/interface";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
+import { supabase } from "../../../supabase";
 
-const user = ref({
-    email: null,
-    phoneNumber: null,
-    firstName: null,
-    lastName: null,
-    domains: null,
-    class: null,
+onMounted(async () => {
+    const { data: authUser } = await supabase.auth.getUser();
+
+    if (!authUser.user) return;
+
+    user.value.id = authUser.user.id;
+    user.value.email = authUser.user.email;
+    user.value.phone = authUser.user.phone;
+});
+
+const user = ref<{
+    id: string | undefined;
+    email: string | undefined;
+    phone: string | undefined;
+    firstName: string | undefined;
+    lastName: string | undefined;
+    domains: string[];
+    class: string | undefined;
+}>({
+    id: undefined,
+    email: undefined,
+    phone: undefined,
+    firstName: undefined,
+    lastName: undefined,
+    domains: [],
+    class: undefined,
+});
+
+const requiredFields = ref<Record<string, boolean>>({
+    id: false,
+    email: false,
+    phone: false,
+    firstName: false,
+    lastName: false,
+    domains: false,
+    class: false,
 });
 
 const currentStepId = ref<number>(1);
@@ -144,8 +172,67 @@ const domains: SelectMixedOption[] = [
     { label: "Développement web", value: "Développement web" },
 ];
 
-function save() {
-    window.$message.success("Vos informations ont bien été sauvegardées");
+async function save() {
+    requiredFields.value = {
+        id: false,
+        email: false,
+        phone: false,
+        firstName: false,
+        lastName: false,
+        domains: false,
+        class: false,
+    };
+
+    checkRequiredFields();
+
+    if (Object.values(requiredFields.value).some((field) => field)) {
+        window.$message.error("Des informations sont manquantes");
+
+        return;
+    }
+
+    try {
+        await supabase
+            .from("profiles")
+            .update({
+                full_name: user.value.firstName + " " + user.value.lastName,
+                first_name: user.value.firstName,
+                last_name: user.value.lastName,
+                class: user.value.class,
+                domains: user.value.domains,
+                did_user_register: true,
+            })
+            .match({ id: user.value.id });
+
+        await supabase.auth.updateUser({
+            phone: "+33" + user.value.phone,
+        });
+        window.$message.success("Vos informations ont bien été sauvegardées");
+    } catch (error) {
+        window.$message.error(error);
+    }
+}
+
+function checkRequiredFields() {
+    if (!user.value.class) {
+        requiredFields.value.class = true;
+    }
+
+    if (!user.value.domains.length) {
+        requiredFields.value.domains = true;
+    }
+
+    if (!user.value.firstName) {
+        requiredFields.value.firstName = true;
+    }
+
+    if (!user.value.lastName) {
+        requiredFields.value.lastName = true;
+    }
+
+    if (!user.value.phone) {
+        requiredFields.value.phone = true;
+    }
 }
 </script>
 

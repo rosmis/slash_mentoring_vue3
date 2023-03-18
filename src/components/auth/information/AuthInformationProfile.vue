@@ -9,11 +9,12 @@
                 class="mt-2 w-88"
                 placeholder="email"
                 v-model="email"
+                disabled
             ></UiInput>
             <UiInput
                 class="mt-2 w-88"
-                placeholder="06 58 20 71 99"
-                v-model="phoneNumber"
+                placeholder="06 74 93 93 02"
+                v-model="phone"
             ></UiInput>
         </div>
         <div class="mt-8">
@@ -68,14 +69,14 @@ const email = computed({
     },
 });
 
-const phoneNumber = computed({
+const phone = computed({
     get() {
-        return props.modelValue.phoneNumber;
+        return props.modelValue.phone;
     },
     set(newValue: string) {
         emit("update:modelValue", {
             ...props.modelValue,
-            phoneNumber: newValue,
+            phone: newValue,
         });
     },
 });
