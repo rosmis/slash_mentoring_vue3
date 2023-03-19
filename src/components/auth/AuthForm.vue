@@ -1,32 +1,44 @@
 <template>
-    <div class="px-42 py-12 shadow shadow-xl shadow-gray-200 flex flex-col items-center rounded-xl">
-        <img
-            src="../../assets/SLASH_MENTORING_LOGO.png"
-            alt="slash mentoring logo"
-            class="w-20"
-        />
+    <ui-wrapper rounded shadow class="min-w-screen-md">
+        <ui-level class="flex-col" align="center">
+            <img
+                src="../../assets/SLASH_MENTORING_LOGO.png"
+                alt="slash mentoring logo"
+                class="w-20"
+            />
 
-        <h2 class="text-lg mt-8">Se connecter</h2>
+            <h2 class="mt-8 text-lg">Se connecter</h2>
 
-        <div class="w-full mt-8">
-            <p class="text-sm text-gray-800">nom.prenom@mail.com</p>
-            <UiInput v-model="email" class="w-88 mt-2"></UiInput>
-        </div>
+            <ui-level class="flex-col" space="sm">
+                <div class="mt-8 w-full">
+                    <p class="text-sm text-gray-800">Adresse email</p>
+                    <UiInput v-model="email" class="mt-2 w-88"></UiInput>
+                </div>
 
-         <div class="w-full mt-6">
-            <p class="text-sm text-gray-800">mot de passe</p>
-            <UiInput v-model="password" class="w-88 mt-2" type="password"></UiInput>
-        </div>
+                <div class="mt-6 w-full">
+                    <p class="text-sm text-gray-800">Mot de passe</p>
+                    <UiInput
+                        v-model="password"
+                        class="mt-2 w-88"
+                        type="password"
+                    ></UiInput>
+                </div>
+            </ui-level>
 
-        <button @click="user.handleSignIn({ email, password })" class="w-48 bg-blue-900 py-3 rounded-md mt-10 text-white text-sm">
-            Se connecter
-        </button>
-        <router-link :to="{ name: 'SignUp' }">
-            <button class="w-48 bg-teal-400 py-3 rounded-md mt-6 text-white text-sm">
-                Créer un compte
-            </button>
-        </router-link>
-    </div>
+            <ui-level class="flex-col mt-8">
+                <UiButton
+                    accent="secondary"
+                    class="w-full"
+                    @click="user.handleSignIn({ email, password })"
+                    >Se connecter</UiButton
+                >
+
+                <router-link :to="{ name: 'SignUp' }">
+                    <UiButton>Créer un compte</UiButton>
+                </router-link>
+            </ui-level>
+        </ui-level>
+    </ui-wrapper>
 </template>
 
 <script setup lang="ts">
@@ -37,5 +49,4 @@ const user = userStore();
 
 const email = ref<string>("");
 const password = ref<string>("");
-
 </script>
