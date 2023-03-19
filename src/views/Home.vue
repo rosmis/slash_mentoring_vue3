@@ -31,7 +31,7 @@
                             >
                         </ui-level>
                         <ui-level v-else align="center">
-                            <UiButton @click="redirectUser()"
+                            <UiButton @click="useUserRedirection('Dashboard')"
                                 >Se lancer</UiButton
                             >
                         </ui-level>
@@ -44,10 +44,7 @@
 
 <script lang="ts" setup>
 import { NCarousel } from "naive-ui";
-import { useRouter } from "vue-router";
-import { userSession } from "../types/userSession";
-
-const router = useRouter();
+import { useUserRedirection } from "../composables/auth/useUserRedirection";
 
 const carouselItems = [
     {
@@ -87,15 +84,6 @@ const carouselItems = [
             "https://res.cloudinary.com/dlirhziq5/image/upload/v1679224289/asset_home_page_zm9mxd.png",
     },
 ];
-
-function redirectUser() {
-    if (userSession.value) {
-        router.push({ name: "Dashboard" });
-        return;
-    }
-
-    router.push({ name: "SignUp" });
-}
 </script>
 
 <style scoped>

@@ -1,7 +1,7 @@
 <template>
     <ui-wrapper rounded color="white" shadow class="top-0 sticky">
         <ui-level class="flex-col" vertical-align="top">
-            <ui-title>Mon Planning</ui-title>
+            <ui-title color="dark-blue">Mon Planning</ui-title>
 
             <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi

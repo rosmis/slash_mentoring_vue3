@@ -19,9 +19,11 @@
             }[size],
 
             {
-                primary:
-                    '!text-white bg-[#1A098C] not-disabled:hover:bg-[#4540EA]',
-            }[accent],
+                '!text-white bg-[#1A098C] not-disabled:hover:bg-[#4540EA]':
+                    !accent || accent === 'primary',
+                '!text-white bg-[#00C4B3] not-disabled:hover:bg-[#71E2C1]':
+                    accent === 'secondary',
+            },
         ]"
     >
         <slot></slot>
