@@ -9,11 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.6",
     "@supabase/supabase-js": "^2.2.2",
     "axios": "^1.2.2",
     "dotenv": "^16.0.3",
     "moment": "^2.29.4",
     "pinia": "^2.0.28",
+    "v-calendar": "^3.0.1",
     "vue": "^3.2.45",
     "vue-query": "^1.26.0",
     "vue-router": "^4.1.6"

@@ -1,6 +1,8 @@
 import moment from "moment";
 import naive from "naive-ui";
 import { createPinia } from "pinia";
+import VCalendar from 'v-calendar';
+import 'v-calendar/style.css';
 import 'virtual:windi.css';
 import { createApp, markRaw } from 'vue';
 import { VueQueryPlugin } from "vue-query";
@@ -10,7 +12,6 @@ import './style.css';
 import { supabase } from "./supabase";
 import { userSession } from "./types/userSession";
 
-
 const app = createApp(App);
 const pinia = createPinia()
 
@@ -19,6 +20,7 @@ pinia.use(({ store }) => {
 });
 
 
+app.use(VCalendar, {})
 app.use(naive);
 app.use(pinia);
 app.use(moment)

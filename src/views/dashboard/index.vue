@@ -1,15 +1,11 @@
 <template>
-    <ui-page v-if="userSession">
-        <ui-wrapper>
+    <ui-wrapper v-if="userSession">
+        <ui-level class="flex-col" vertical-align="top">
             <DashboardHeader :user-infos="user.data" />
 
             <div class="rounded-3xl">
                 <ui-level vertical-align="top" class="relative" space="lg">
-                    <ui-level
-                        class="flex-col w-2/3"
-                        vertical-align="top"
-                        space="lg"
-                    >
+                    <ui-level class="flex-col w-2/3" vertical-align="top">
                         <ui-input
                             v-model="search"
                             placeholder="Rechercher une formation..."
@@ -42,8 +38,8 @@
                     <TrainingPlanningCard class="w-1/3" />
                 </ui-level>
             </div>
-        </ui-wrapper>
-    </ui-page>
+        </ui-level>
+    </ui-wrapper>
 </template>
 
 <script lang="ts" setup>
