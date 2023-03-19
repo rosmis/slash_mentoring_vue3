@@ -3,11 +3,11 @@
         <ui-wrapper>
             <ui-level class="flex-col">
                 <DashboardHeader />
-                <HomeHeader />
-                <HomeOffer />
+                <AboutHeader />
+                <AboutOffer />
             </ui-level>
         </ui-wrapper>
-        <HomeTrainers />
+        <AboutTrainers />
     </ui-page>
 </template>
 
