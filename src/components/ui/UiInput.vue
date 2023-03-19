@@ -53,7 +53,7 @@
         <span
             v-if="modelValue && cancelable"
             class="text-gray-400 absolute hover:cursor-pointer hover:text-gray-600"
-            @click="$emit('input', '')"
+            @click="$emit('update:modelValue', '')"
             :class="{
                 'right-6': size === 'lg',
                 'right-4': !size,
@@ -66,6 +66,15 @@
         </span>
     </div>
 </template>
+
+<script lang="ts">
+export default {
+    model: {
+        prop: "modelValue",
+        event: "update:modelValue",
+    },
+};
+</script>
 
 <script lang="ts" setup>
 withDefaults(
@@ -88,7 +97,7 @@ withDefaults(
     {
         accent: undefined,
         placeholder: undefined,
-        value: undefined,
+        modelValue: undefined,
         icon: undefined,
         size: undefined,
         type: undefined,
@@ -101,4 +110,8 @@ withDefaults(
         disabled: false,
     }
 );
+
+defineEmits<{
+    (event: "update:modelValue", modelValue: string | boolean | number): void;
+}>();
 </script>

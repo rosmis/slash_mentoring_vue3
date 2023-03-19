@@ -2,4 +2,17 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Helvetica Now', sans-serif;
+}
+
+@font-face {
+  font-family: "Helvetica Now";
+  src: local("Neue"), url(./fonts/HelveticaNowDisplay-Bold.ttf) format("truetype");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Helvetica Now";
+  src: local("Neue"), url(./fonts/HelveticaNowDisplay-Regular.ttf) format("truetype");
+  font-weight: normal;
 }

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import About from '../views/about/index.vue';
 import AccountEdit from '../views/account/edit.vue';
 import Account from '../views/account/index.vue';
 import Auth from '../views/auth/index.vue';
@@ -12,6 +13,7 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         {path: '/', name: 'Home', component: Home}, 
+        {path: '/about', name: 'About', component: About}, 
         {path: '/auth', name: 'Auth', component: Auth},
         {path: '/auth/signup', name: 'SignUp', component: SignUp},
         {path: '/auth/information', name: 'Information', component: Information},
@@ -22,16 +24,15 @@ const router = createRouter({
     ]
 })
 
-// router.beforeEach(async (to, from, next) => {
-//     // redirect to login page if not logged in and trying to access a restricted page
-//     const publicPages = ['/'];
-//     const authRequired = !publicPages.includes(to.path);
+router.beforeEach((to, from, next) => {
 
-//     if (authRequired && !userSession) {
-//         next({
-//             name: 'Home'
-//         })
-//     }
-// });
+
+    if(to.path.includes('verify?token=')) {
+        next()
+    } else {
+        next()
+    }
+})
+
 
 export default router

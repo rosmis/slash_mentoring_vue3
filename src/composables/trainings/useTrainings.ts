@@ -4,7 +4,10 @@ import { headerOptions } from "../auth/useHeadersToken";
 
 export function useTrainings() {
   const { data } = useQuery(["training"], () =>
-    axios.get(`http://localhost:1337/api/trainings?populate=*`, headerOptions)
+    axios.get(
+      `${import.meta.env.VITE_STRAPI_URL}/api/trainings?populate=*`,
+      headerOptions
+    )
   );
 
   return data;

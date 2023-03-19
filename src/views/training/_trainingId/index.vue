@@ -47,7 +47,9 @@ let loading = ref(false);
 
 let { data: training, refetch } = useQuery(["training"], () =>
   axios.get(
-    `http://localhost:1337/api/trainings/${Number(route.params.id)}?populate=*`,
+    `${import.meta.env.VITE_STRAPI_URL}/api/trainings/${Number(
+      route.params.id
+    )}?populate=*`,
     headerOptions
   )
 );
@@ -56,7 +58,9 @@ let { data: userTraining, refetch: refetchUserTraining } = useQuery(
   ["userTraining"],
   () =>
     axios.get(
-      `http://localhost:1337/api/user-trainings?filters[userId][$eq]=${
+      `${
+        import.meta.env.VITE_STRAPI_URL
+      }/api/user-trainings?filters[userId][$eq]=${
         userSession.value.user.id
       }&filters[trainingId][$eq]=${Number(route.params.id)}`,
       headerOptions
@@ -77,7 +81,7 @@ async function createUserTraining() {
   try {
     await axios
       .post(
-        "http://localhost:1337/api/user-trainings",
+        `${import.meta.env.VITE_STRAPI_URL}/api/user-trainings`,
         {
           data: userTraining.value,
         },
@@ -86,7 +90,7 @@ async function createUserTraining() {
       .then((response) => (userTrainingId.value = response.data.data.id));
 
     await axios.put(
-      `http://localhost:1337/api/trainings/${Number(
+      `${import.meta.env.VITE_STRAPI_URL}/api/trainings/${Number(
         route.params.id
       )}?populate=*`,
 
@@ -111,7 +115,9 @@ async function payTraining() {
   loading.value = true;
   try {
     await axios.put(
-      `http://localhost:1337/api/user-trainings/${userTraining.value.data.data[0].id}`,
+      `${import.meta.env.VITE_STRAPI_URL}/user-trainings/${
+        userTraining.value.data.data[0].id
+      }`,
       {
         data: {
           didUserPay: true,
