@@ -1,5 +1,5 @@
 <template>
-    <ui-page v-if="userSession" screen>
+    <ui-page v-if="userSession">
         <ui-wrapper>
             <DashboardHeader :user-infos="user.data" />
 
