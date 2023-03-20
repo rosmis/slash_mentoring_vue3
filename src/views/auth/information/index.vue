@@ -70,7 +70,10 @@
 import { NStep, NSteps, SelectGroupOption, SelectOption } from "naive-ui";
 import { SelectMixedOption } from "naive-ui/es/select/src/interface";
 import { computed, onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 import { supabase } from "../../../supabase";
+
+const router = useRouter();
 
 onMounted(async () => {
     const { data: authUser } = await supabase.auth.getUser();
@@ -211,6 +214,8 @@ async function save() {
             phone: "+33" + user.value.phone,
         });
         window.$message.success("Vos informations ont bien été sauvegardées");
+
+        router.push("/dashboard");
     } catch (error) {
         window.$message.error(error);
     }
