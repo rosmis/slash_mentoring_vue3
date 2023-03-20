@@ -90,6 +90,7 @@ const user = ref<{
     lastName: string | undefined;
     domains: string[];
     class: string | undefined;
+    avatarUrl: string | undefined;
 }>({
     id: undefined,
     email: undefined,
@@ -98,6 +99,7 @@ const user = ref<{
     lastName: undefined,
     domains: [],
     class: undefined,
+    avatarUrl: undefined,
 });
 
 const requiredFields = ref<Record<string, boolean>>({
@@ -201,6 +203,7 @@ async function save() {
                 class: user.value.class,
                 domains: user.value.domains,
                 did_user_register: true,
+                avatar_url: user.value.avatarUrl,
             })
             .match({ id: user.value.id });
 

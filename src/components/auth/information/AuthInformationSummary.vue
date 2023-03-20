@@ -22,18 +22,16 @@
         </div>
         <div class="mt-8">
             <p class="text-sm text-gray-800">Votre photo de profil</p>
-            <div
-                class="rounded-xl flex shadow p-8 shadow-2xl shadow-gray-100 w-88 items-center"
-            >
+            <div class="flex p-8 w-88 items-center justify-around">
                 <div
-                    class="border rounded-full bg-gray-100 border-blue-900 border-2 h-24 w-24 image"
-                ></div>
-                <div class="rounded-lg bg-blue-900 h-8 ml-4 w-8"></div>
-                <a
-                    class="border rounded-lg cursor-pointer border-blue-900 ml-8 py-2 px-4 text-blue-800 pointer-events-none"
+                    class="border rounded-full bg-gray-100 border-blue-900 border-2 h-24 w-24"
                 >
-                    Enregistrer
-                </a>
+                    <img
+                        class="rounded-full"
+                        v-bind:src="userAvatarUrl"
+                        alt=""
+                    />
+                </div>
             </div>
         </div>
         <div class="mt-8">
@@ -70,10 +68,26 @@ import {
     SelectMixedOption,
     SelectOption,
 } from "naive-ui/es/select/src/interface";
+import { onMounted, ref } from "vue";
+import { supabase } from "../../../supabase";
 
-defineProps<{
+const props = defineProps<{
     user: Record<string, any>;
     domains: SelectMixedOption;
     classes: Array<SelectOption | SelectGroupOption>;
 }>();
+
+onMounted(async () => {
+    if (props.user.avatarUrl) {
+        const { data } = await supabase.storage
+            .from("avatars")
+            .download(props.user.avatarUrl);
+
+        if (!data) return;
+
+        userAvatarUrl.value = URL.createObjectURL(data);
+    }
+});
+
+const userAvatarUrl = ref<string>();
 </script>
