@@ -29,14 +29,21 @@ const router = createRouter({
 const publicRoutes = ['Home', 'About', 'SignUp']
 
 router.beforeEach(async (to, from, next) => {
-
     const authUser = await supabase.auth.getUser()
 
-    const user = await useSessionUserInfos(authUser.data.user.id)
+    if(publicRoutes.includes(to.name)) return next()
 
-    if(!user.did_user_register && !publicRoutes.includes(to.name) && to.name !== 'Information') {
-        return next({ name: "Information" })
-    } 
+    if(!authUser.data.user && to.name !== 'Auth') {
+        return next({ name: "Auth" })
+    }
+    
+    if(authUser.data.user) {
+        const user = await useSessionUserInfos(authUser.data.user?.id)
+
+        if(!user.did_user_register && to.name !== 'Information') {
+            return next({ name: "Information" })
+        }
+    }
 
     if(to.path.includes('verify?token=')) {
         next()
