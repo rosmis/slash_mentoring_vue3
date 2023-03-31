@@ -13,6 +13,7 @@
             :value="modelValue"
             :required="required"
             :readonly="readonly"
+            :disabled="disabled"
             :type="type"
             class="outline-none w-full placeholder-gray-400 disabled:text-gray-500"
             :class="[
@@ -25,7 +26,7 @@
                 },
                 transparent
                     ? 'bg-transparent hover:bg-black/5 focus-within:bg-black/5'
-                    : 'bg-white border hover:border-gray-300 focus-within:border-gray-300',
+                    : 'bg-white border border-gray-400 hover:border-black focus-within:border-black',
                 {
                     'pl-10': icon,
                     'pr-10': reveal,
@@ -91,6 +92,7 @@ withDefaults(
         reveal?: boolean;
         transparent?: boolean;
         rounded?: boolean;
+        disabled?: boolean;
     }>(),
     {
         accent: undefined,
@@ -105,6 +107,7 @@ withDefaults(
         required: false,
         reveal: false,
         transparent: false,
+        disabled: false,
     }
 );
 
