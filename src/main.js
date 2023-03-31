@@ -1,3 +1,5 @@
+import * as mdijs from '@mdi/js';
+import mdiVue from 'mdi-vue/v3';
 import moment from "moment";
 import naive from "naive-ui";
 import { createPinia } from "pinia";
@@ -26,6 +28,9 @@ app.use(pinia);
 app.use(moment)
 app.use(router);
 app.use(VueQueryPlugin);
+app.use(mdiVue, {
+    icons: mdijs
+  })
 
 app.mount("#app");
 

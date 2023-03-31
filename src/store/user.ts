@@ -37,7 +37,7 @@ export const userStore = defineStore({
       try {
         const { email, password } = credentials;
 
-        if (!email.length || !password.length) {
+        if (!email?.length || !password?.length) {
           window.$message.error("Veuillez rentrer tous les champs requis");
           return;
         }
@@ -75,7 +75,7 @@ export const userStore = defineStore({
 
       this.data = data;
 
-      if (data.avatar_url) this.downloadAvatar(data.avatar_url);
+      if (data?.avatar_url) this.downloadAvatar(data?.avatar_url);
     },
 
     async downloadAvatar(avatar_url: string | null) {

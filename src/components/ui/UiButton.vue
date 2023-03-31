@@ -2,7 +2,7 @@
     <Component
         is="button"
         :class="[
-            'outline-none flex-shrink-0 z-0 gap-2 relative inline-flex items-center select-none focus:outline-none cursor-pointer disabled:cursor-default transition',
+            'outline-none flex-shrink-0  z-0 gap-2 relative inline-flex items-center select-none focus:outline-none justify-center cursor-pointer disabled:cursor-default transition',
 
             {
                 '!rounded-full': rounded,
@@ -14,7 +14,7 @@
                 xl: ['h-16 text-xl px-8', { 'rounded-3xl': !rounded }],
                 lg: ['h-12 text-lg px-6', { 'rounded-lg': !rounded }],
                 base: ['h-10 px-8 py-4', { 'rounded-lg': !rounded }],
-                sm: ['h-8 text-sm px-3', { 'rounded-sm': !rounded }],
+                sm: ['h-8 text-sm px-3', { 'rounded-lg': !rounded }],
                 xs: ['h-6 text-xs px-2', { 'rounded-md': !rounded }],
             }[size],
 
