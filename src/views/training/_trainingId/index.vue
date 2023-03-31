@@ -1,4 +1,35 @@
 <template>
+    <ui-page v-if="training">
+        <ui-level class="h-full bg-red-400" space="none">
+            <ui-wrapper padded class="w-3/5">
+                <ui-level class="flex-col h-full" align="left" space="lg">
+                    <ui-title size="4xl" color="dark-blue">{{
+                        training.data.data.attributes.title
+                    }}</ui-title>
+
+                    <ui-level>
+                        <TrainingInfoCard
+                            v-for="(card, index) in trainingCardContent"
+                            :key="`card-${index}`"
+                            :card-content="card"
+                        />
+                    </ui-level>
+                </ui-level>
+            </ui-wrapper>
+            <ui-level class="h-130 w-2/5">
+                <div
+                    class="bg-no-repeat bg-cover h-full w-full"
+                    :style="{
+                        backgroundImage: `url(${training.data.data.attributes.backgroundImage.data.attributes.url})`,
+                    }"
+                ></div>
+            </ui-level>
+        </ui-level>
+        <pre>
+            {{ training }}
+        </pre>
+    </ui-page>
+
     <!-- <n-button @click="router.push({ name: 'Dashboard' })"> Retour </n-button>
 
   <template v-if="userTraining">
@@ -25,8 +56,9 @@
 
 <script lang="ts" setup>
 import axios from "axios";
+import moment from "moment";
 import { useMessage } from "naive-ui";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useQuery } from "vue-query";
 import { useRoute, useRouter } from "vue-router";
 import { headerOptions } from "../../../composables/auth/useHeadersToken";
@@ -47,6 +79,37 @@ let { data: training, refetch } = useQuery(["training"], () =>
         headerOptions
     )
 );
+
+const trainingCardContent = computed(() => [
+    {
+        title: "date",
+        content: moment(training?.value.data.data.attributes.date).format(
+            "DD/MM"
+        ),
+        color: "pink",
+        icon: "calendar",
+    },
+    {
+        title: "heure",
+        content: moment(training?.value.data.data.attributes.date).format(
+            "HH[h]mm"
+        ),
+        color: "light-blue",
+        icon: "clock",
+    },
+    {
+        title: "durée",
+        content: training?.value.data.data.attributes.duration,
+        color: "green",
+        icon: "timing",
+    },
+    {
+        title: "places",
+        content: `${training?.value.data.data.attributes.maxUserTrainings} MAX`,
+        color: "dark-blue",
+        icon: "seats",
+    },
+]);
 
 let { data: userTraining, refetch: refetchUserTraining } = useQuery(
     ["userTraining"],
