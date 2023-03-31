@@ -12,6 +12,7 @@
                             class="w-full"
                         />
 
+                        <UiLoader v-if="!isFetched" />
                         <div
                             v-if="
                                 filteredTrainings && filteredTrainings.data.data
@@ -55,7 +56,7 @@ const user = userStore();
 
 const search = ref("");
 
-const { data: trainings } = useQuery(["trainings"], () =>
+const { data: trainings, isFetched } = useQuery(["trainings"], () =>
     axios.get(
         `${import.meta.env.VITE_STRAPI_URL}/api/trainings?populate=*`,
         headerOptions
