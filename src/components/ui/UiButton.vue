@@ -26,7 +26,19 @@
             },
         ]"
     >
-        <slot></slot>
+        <ui-level space="sm">
+            <slot></slot>
+            <mdicon
+                v-if="loading"
+                name="loading"
+                width="40"
+                class="mdi-spin"
+                :class="{
+                    'text-white': !outlined,
+                    'text-[#1A098C]': outlined,
+                }"
+            />
+        </ui-level>
     </Component>
 </template>
 
@@ -35,6 +47,7 @@ withDefaults(
     defineProps<{
         outlined?: boolean;
         rounded?: boolean;
+        loading?: boolean;
         accent?: string;
         size?: string;
     }>(),
@@ -42,6 +55,7 @@ withDefaults(
         size: "base",
         accent: "primary",
         rounded: false,
+        loading: undefined,
         outlined: false,
     }
 );

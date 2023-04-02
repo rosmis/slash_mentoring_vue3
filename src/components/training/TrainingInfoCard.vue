@@ -1,7 +1,7 @@
 <template>
     <ui-level class="flex-col" align="center" space="sm">
         <ui-level
-            class="rounded-lg flex-col h-20 w-20"
+            class="rounded-lg flex-col h-22 p-2 w-22"
             align="center"
             space="sm"
             :class="{
