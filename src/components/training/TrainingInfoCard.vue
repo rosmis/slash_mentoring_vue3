@@ -15,10 +15,38 @@
                 :src="`https://res.cloudinary.com/dlirhziq5/image/upload/v1680278364/${cardContent.icon}.svg`"
                 class="w-8"
             />
-            <p>{{ cardContent.content }}</p>
+            <p
+                :class="{
+                    'text-[#DB5784]': cardContent.color === 'pink',
+                    'text-[#4540EA]': cardContent.color === 'light-blue',
+                    'text-[#55C9A7]': cardContent.color === 'green',
+                    'text-[#1A098C]': cardContent.color === 'dark-blue',
+                }"
+            >
+                {{ cardContent.content }}
+            </p>
         </ui-level>
 
-        <p>{{ cardContent.title }}</p>
+        <div
+            class="border-b pb-1"
+            :class="{
+                'border-b-[#DB5784]': cardContent.color === 'pink',
+                'border-b-[#4540EA]': cardContent.color === 'light-blue',
+                'border-b-[#55C9A7]': cardContent.color === 'green',
+                'border-b-[#1A098C]': cardContent.color === 'dark-blue',
+            }"
+        >
+            <p
+                :class="{
+                    'text-[#DB5784]': cardContent.color === 'pink',
+                    'text-[#4540EA]': cardContent.color === 'light-blue',
+                    'text-[#55C9A7]': cardContent.color === 'green',
+                    'text-[#1A098C]': cardContent.color === 'dark-blue',
+                }"
+            >
+                {{ cardContent.title }}
+            </p>
+        </div>
     </ui-level>
 </template>
 
