@@ -2,7 +2,10 @@
     <div
         class="flex flex-col shadow-r min-h-90vh w-6/10 justify-center items-center"
     >
-        <div>
+        <div class="w-88">
+            <UiTitle color="dark-blue">Dernière étape</UiTitle>
+        </div>
+        <div class="mt-4">
             <p class="text-sm text-gray-800">Votre classe</p>
             <n-select
                 placeholder="Choix de la classe"

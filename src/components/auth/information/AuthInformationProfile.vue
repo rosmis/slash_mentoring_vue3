@@ -3,7 +3,19 @@
         class="flex flex-col shadow-r min-h-90vh w-6/10 justify-center items-center"
         v-if="modelValue"
     >
-        <div>
+        <div class="w-88">
+            <UiTitle color="dark-blue">Dernière étape</UiTitle>
+        </div>
+        <UiMessage color="blue" class="mt-4 w-88">
+            <p>
+                Veuillez entrez votre numéro de téléphone qui est relié à votre
+                compte Lydia
+            </p>
+            <p class="mt-2">
+                Sans cela, vous ne pourrez participer à aucun cours.
+            </p>
+        </UiMessage>
+        <div class="mt-4">
             <p class="text-sm text-gray-800">Vos coordonnées</p>
             <UiInput
                 class="mt-2 w-88"
