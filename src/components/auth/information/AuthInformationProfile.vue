@@ -23,11 +23,36 @@
                 v-model="email"
                 disabled
             ></UiInput>
-            <UiInput
-                class="mt-2 w-88"
-                placeholder="06 74 93 93 02"
-                v-model="phone"
-            ></UiInput>
+            <UiLevel class="mt-2" vertical-align="top">
+                <phone-input
+                    v-if="isAddingPhone"
+                    class="rounded-lg w-76"
+                    @phoneData="phone = $event"
+                    :allowed="['FR', 'BE', 'CH']"
+                    defaultCountry="FR"
+                    value="0658207199"
+                >
+                    <p v-if="isPhoneNumberValid" class="text-xs text-green-600">
+                        Numéro valide
+                    </p>
+                    <p v-else class="text-xs text-red-600">Numéro non valide</p>
+                </phone-input>
+                <UiInput :disabled="true" v-model="phone" v-else></UiInput>
+                <div
+                    class="rounded-lg cursor-pointer flex bg-blue-900 h-8 w-8 justify-center items-center"
+                    :class="{
+                        'mt-1': !isAddingPhone,
+                        'mt-2': isAddingPhone,
+                    }"
+                    @click="isAddingPhone = !isAddingPhone"
+                >
+                    <mdicon
+                        :name="isAddingPhone ? 'check' : 'pencil'"
+                        width="20"
+                        class="text-white"
+                    />
+                </div>
+            </UiLevel>
         </div>
         <div class="mt-8">
             <p class="text-sm text-gray-800">Votre identité</p>
@@ -89,17 +114,27 @@ const email = computed({
     },
 });
 
+const isAddingPhone = ref(false);
+
 const phone = computed({
     get() {
         return props.modelValue.phone;
     },
-    set(newValue: string) {
-        emit("update:modelValue", {
-            ...props.modelValue,
-            phone: newValue,
-        });
+    set(newValue: any) {
+        if (newValue.isValid) {
+            isPhoneNumberValid.value = true;
+
+            emit("update:modelValue", {
+                ...props.modelValue,
+                phone: newValue.number,
+            });
+        } else {
+            isPhoneNumberValid.value = false;
+        }
     },
 });
+
+const isPhoneNumberValid = ref(!!phone.value);
 
 const firstName = computed({
     get() {
@@ -177,3 +212,7 @@ async function updateFile(newFile: any) {
     avatarUrl.value = data.path;
 }
 </script>
+
+<style>
+@import "@lbgm/phone-number-input/style";
+</style>
