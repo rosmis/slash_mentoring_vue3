@@ -2,7 +2,10 @@
     <div
         class="flex flex-col shadow-r min-h-90vh py-32 w-6/10 justify-center items-center"
     >
-        <div>
+        <div class="w-88">
+            <UiTitle color="dark-blue">Dernière étape</UiTitle>
+        </div>
+        <div class="mt-4">
             <p class="text-sm text-gray-800">Vos coordonnées</p>
             <UiInput class="mt-2 w-88" disabled v-model="user.email"></UiInput>
             <UiInput class="mt-2 w-88" disabled v-model="user.phone"></UiInput>

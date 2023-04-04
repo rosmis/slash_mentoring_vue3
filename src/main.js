@@ -1,3 +1,4 @@
+import { PhoneInput } from '@lbgm/phone-number-input';
 import * as mdijs from '@mdi/js';
 import mdiVue from 'mdi-vue/v3';
 import moment from "moment";
@@ -14,6 +15,8 @@ import './style.css';
 import { supabase } from "./supabase";
 import { userSession } from "./types/userSession";
 
+// register as global component
+
 const app = createApp(App);
 const pinia = createPinia()
 
@@ -22,6 +25,7 @@ pinia.use(({ store }) => {
 });
 
 
+app.component('PhoneInput', PhoneInput);
 app.use(VCalendar, {})
 app.use(naive);
 app.use(pinia);
