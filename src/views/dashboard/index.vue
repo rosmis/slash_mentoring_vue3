@@ -3,42 +3,43 @@
         <ui-level class="flex-col" vertical-align="top">
             <DashboardHeader :user-infos="user.data" />
 
-            <div class="rounded-3xl">
-                <ui-level vertical-align="top" class="relative" space="lg">
-                    <ui-level class="flex-col w-2/3" vertical-align="top">
-                        <ui-input
-                            v-model="search"
-                            placeholder="Rechercher une formation..."
-                            class="w-full"
-                        />
+            <ui-level vertical-align="top" class="w-full relative" space="lg">
+                <ui-level class="flex-col w-2/3" vertical-align="top">
+                    <ui-input
+                        v-model="search"
+                        placeholder="Rechercher une formation..."
+                        class="w-full"
+                    />
 
-                        <UiLoader v-if="!isFetched" />
-                        <div
-                            v-if="
-                                filteredTrainings && filteredTrainings.data.data
-                            "
-                            class="w-full grid gap-8 grid-cols-2"
+                    <UiLoader v-if="!isFetched" />
+                    <div
+                        v-if="filteredTrainings && filteredTrainings.data.data"
+                        class="w-full grid gap-8 grid-cols-2"
+                    >
+                        <template
+                            v-for="(training, index) in filteredTrainings.data
+                                .data"
+                            :key="training.id"
                         >
-                            <template
-                                v-for="(training, index) in filteredTrainings
-                                    .data.data"
-                                :key="training.id"
-                            >
-                                <TrainingCard
-                                    :training="training"
-                                    :color="
-                                        useTrainingCardColors()[
-                                            index %
-                                                useTrainingCardColors().length
-                                        ]
-                                    "
-                                />
-                            </template>
-                        </div>
-                    </ui-level>
-                    <TrainingPlanningCard class="w-1/3" />
+                            <TrainingCard
+                                :training="training"
+                                :color="
+                                    useTrainingCardColors()[
+                                        index % useTrainingCardColors().length
+                                    ]
+                                "
+                            />
+                        </template>
+                    </div>
                 </ui-level>
-            </div>
+
+                <UiLoader v-if="!isSubscribedTrainingsFetched" />
+                <TrainingPlanning
+                    v-else
+                    :subscribed-trainings="subscribedTrainings.data.data"
+                    class="w-1/3"
+                />
+            </ui-level>
         </ui-level>
     </ui-wrapper>
 </template>
@@ -63,6 +64,18 @@ const { data: trainings, isFetched } = useQuery(["trainings"], () =>
     )
 );
 
+const { data: subscribedTrainings, isFetched: isSubscribedTrainingsFetched } =
+    useQuery(["subscribedTrainings"], () =>
+        axios.get(
+            `${
+                import.meta.env.VITE_STRAPI_URL
+            }/api/trainings?filters[user_trainings][user][$eq]=${
+                userSession.value.user.email
+            }`,
+            headerOptions
+        )
+    );
+
 const filteredTrainings = computed(() => {
     if (!trainings.value) return undefined;
 
@@ -72,6 +85,17 @@ const filteredTrainings = computed(() => {
         training.attributes.title.toLowerCase().includes(search.value)
     );
 });
+
+// const subscribedTrainings = computed(() => {
+//     if (!trainings.value) return undefined;
+
+//     return trainings.value.data.data.filter((training) =>
+//         training.attributes.user_trainings.data.filter(
+//             (userTraining) =>
+//                 userTraining.attributes.user === userSession.value.user.email
+//         )
+//     );
+// });
 
 onMounted(() => {
     user.handleUserSessionInfos();
