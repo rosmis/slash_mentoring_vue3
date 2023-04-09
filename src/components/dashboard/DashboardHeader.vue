@@ -11,8 +11,14 @@
         </ui-wrapper>
 
         <ui-wrapper shadow rounded class="w-1/3">
-            <h1 class="text-xl">Mon Agenda</h1>
-            <VCalendar :attributes="attrs" expanded borderless />
+            <ui-title color="dark-blue" size="xl">Mon Agenda</ui-title>
+            <VCalendar
+                :attributes="attrs"
+                expanded
+                borderless
+                @dayclick="emit('day-click', $event.date)"
+                @dayfocusout="emit('clear')"
+            />
         </ui-wrapper>
     </ui-level>
 </template>
@@ -22,13 +28,19 @@ import moment from "moment";
 import "moment/dist/locale/fr";
 import { ref } from "vue";
 
-defineProps<{
+const props = defineProps<{
     userInfos: {
         username: string;
         website: string;
         avatar_url: string;
         full_name: string;
     };
+    subscribedTrainings: any[];
+}>();
+
+const emit = defineEmits<{
+    (event: "day-click", value: Date): void;
+    (event: "clear"): void;
 }>();
 
 const attrs = ref([
@@ -39,5 +51,17 @@ const attrs = ref([
         },
         dates: new Date(),
     },
+
+    ...props.subscribedTrainings.map((training) => {
+        return {
+            dates: training.attributes.date,
+            dot: {
+                color: "blue",
+            },
+            popover: {
+                label: training.attributes.title,
+            },
+        };
+    }),
 ]);
 </script>

@@ -1,7 +1,14 @@
 <template>
     <ui-wrapper v-if="userSession">
         <ui-level class="flex-col" vertical-align="top">
-            <DashboardHeader :user-infos="user.data" />
+            <UiLoader v-if="!isSubscribedTrainingsFetched" />
+            <DashboardHeader
+                v-else
+                :user-infos="user.data"
+                :subscribed-trainings="subscribedTrainings.data.data"
+                @day-click="selectedDate = $event"
+                @clear="selectedDate = undefined"
+            />
 
             <ui-level vertical-align="top" class="w-full relative" space="lg">
                 <ui-level class="flex-col w-2/3" vertical-align="top">
@@ -37,6 +44,7 @@
                 <TrainingPlanning
                     v-else
                     :subscribed-trainings="subscribedTrainings.data.data"
+                    :selected-date="selectedDate"
                     class="w-1/3"
                 />
             </ui-level>
@@ -56,6 +64,7 @@ import { userSession } from "../../types/userSession";
 const user = userStore();
 
 const search = ref("");
+const selectedDate = ref<Date>();
 
 const { data: trainings, isFetched } = useQuery(["trainings"], () =>
     axios.get(
