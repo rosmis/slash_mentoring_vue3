@@ -33,6 +33,9 @@
                     'pr-10': reveal,
                 },
                 {
+                    'border-b-white border-b !rounded-none': outlined,
+                },
+                {
                     'h-12 px-6 text-lg': size === 'lg',
                     'h-10 px-4': !size,
                     'h-8 px-3 text-sm': size === 'sm',
@@ -89,6 +92,7 @@ withDefaults(
         readonly?: boolean;
         type?: string;
         required?: boolean;
+        outlined?: boolean;
         autocomplete?: boolean;
         reveal?: boolean;
         transparent?: boolean;

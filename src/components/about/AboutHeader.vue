@@ -4,7 +4,7 @@
             class="bg-cover rounded flex-col h-120"
             :style="{
                 backgroundImage: `linear-gradient(0deg, rgba(26,9,140,0.4) 0%, rgba(16,14,81,0.4) 100%),
-                            url(./src/assets/about_banner.png)`,
+                            url(https://res.cloudinary.com/dlirhziq5/image/upload/v1681054379/about_banner_gseyqo.png)`,
             }"
             align="center"
         >

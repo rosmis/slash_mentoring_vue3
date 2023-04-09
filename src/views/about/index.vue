@@ -14,6 +14,7 @@
         </ui-level>
 
         <AboutQA />
+        <AboutContact />
     </ui-page>
 </template>
 
@@ -23,10 +24,13 @@ import { useQuery } from "vue-query";
 import { headerOptions } from "../../composables/auth/useHeadersToken";
 import { useUserRedirection } from "../../composables/auth/useUserRedirection";
 
-const { data: trainers } = useQuery(["trainings"], () =>
-    axios.get(
-        `${import.meta.env.VITE_STRAPI_URL}/api/trainers?populate=*`,
-        headerOptions
-    )
+const { data: trainers } = useQuery(
+    ["trainings"],
+    () =>
+        axios.get(
+            `${import.meta.env.VITE_STRAPI_URL}/api/trainers?populate=*`,
+            headerOptions
+        ),
+    { refetchOnWindowFocus: false }
 );
 </script>

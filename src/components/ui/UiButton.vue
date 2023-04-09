@@ -23,6 +23,8 @@
                     !accent || accent === 'primary',
                 '!text-white bg-[#00C4B3] not-disabled:hover:bg-[#71E2C1]':
                     accent === 'secondary',
+                '!text-black bg-white not-disabled:hover:bg-[#71E2C1]':
+                    accent === 'white',
             },
         ]"
     >
