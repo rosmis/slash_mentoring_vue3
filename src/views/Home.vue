@@ -1,5 +1,5 @@
 <template>
-    <ui-page screen class="relative">
+    <ui-page screen class="relative overflow-x-hidden">
         <UiSlash />
 
         <ui-wrapper padded>
