@@ -9,10 +9,13 @@
                 'bg-[#ECF1FE]': color === 'light-blue',
                 'bg-[#0F0D2B]': color === 'blue',
                 'bg-white': color === 'white',
-                'rounded-3xl': rounded === true,
             },
             {
                 'py-12 px-8': padded === true,
+            },
+            {
+                'rounded-3xl': rounded === true,
+                'rounded-xl': rounded === 'sm',
             },
             {
                 'shadow-md': shadow === true,
@@ -27,7 +30,7 @@
 defineProps<{
     container?: boolean;
     color?: string;
-    rounded?: boolean;
+    rounded?: boolean | string;
     padded?: boolean;
     shadow?: boolean;
 }>();

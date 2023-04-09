@@ -59,19 +59,21 @@ const search = ref("");
 
 const { data: trainings, isFetched } = useQuery(["trainings"], () =>
     axios.get(
-        `${import.meta.env.VITE_STRAPI_URL}/api/trainings?populate=*`,
+        `${
+            import.meta.env.VITE_STRAPI_URL
+        }/api/trainings?populate=trainer.profilePicture,backgroundImage`,
         headerOptions
     )
 );
 
 const { data: subscribedTrainings, isFetched: isSubscribedTrainingsFetched } =
-    useQuery(["subscribedTrainings"], () =>
+    useQuery(["subscribedTrainings", userSession.value.user.email], () =>
         axios.get(
             `${
                 import.meta.env.VITE_STRAPI_URL
             }/api/trainings?filters[user_trainings][user][$eq]=${
                 userSession.value.user.email
-            }`,
+            }&populate=trainer`,
             headerOptions
         )
     );
@@ -85,17 +87,6 @@ const filteredTrainings = computed(() => {
         training.attributes.title.toLowerCase().includes(search.value)
     );
 });
-
-// const subscribedTrainings = computed(() => {
-//     if (!trainings.value) return undefined;
-
-//     return trainings.value.data.data.filter((training) =>
-//         training.attributes.user_trainings.data.filter(
-//             (userTraining) =>
-//                 userTraining.attributes.user === userSession.value.user.email
-//         )
-//     );
-// });
 
 onMounted(() => {
     user.handleUserSessionInfos();

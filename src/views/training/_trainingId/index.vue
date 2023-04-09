@@ -78,7 +78,7 @@ const message = useMessage();
 let loading = ref(false);
 let unsubscribeLoading = ref(false);
 
-let { data: training, refetch } = useQuery(["training"], () =>
+let { data: training, refetch } = useQuery(["training", route.params.id], () =>
     axios.get(
         `${import.meta.env.VITE_STRAPI_URL}/api/trainings/${Number(
             route.params.id

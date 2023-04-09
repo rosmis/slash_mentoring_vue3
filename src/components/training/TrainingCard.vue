@@ -38,7 +38,12 @@
                 :style="{ backgroundColor: color }"
             >
                 <ui-level align="left" class="h-full">
-                    <div class="rounded-full h-12 ring-white ring-2 w-12"></div>
+                    <div
+                        class="bg-cover bg-no-repeat rounded-full h-12 ring-white ring-2 w-12"
+                        :style="{
+                            backgroundImage: `url(${training.attributes.trainer.data.attributes.profilePicture.data.attributes.url})`,
+                        }"
+                    ></div>
 
                     <ui-level class="flex-col" space="xs" vertical-align="top">
                         <p class="text-lg text-white">

@@ -1,14 +1,38 @@
 <template>
-    <ui-wrapper rounded :style="{ backgroundColor: color }" class="w-full">
-        <ui-level class="flex-col w-full" vertical-align="top">
-            <p>{{ training.attributes.title }}</p>
-            <p>{{ moment(training.attributes.date).format("HH[h]mm") }}</p>
-        </ui-level>
-    </ui-wrapper>
+    <router-link
+        :to="{ name: 'Training', params: { id: training.id } }"
+        class="w-full"
+    >
+        <ui-wrapper
+            rounded="sm"
+            :style="{ backgroundColor: color }"
+            class="cursor-pointer w-full transition-shadow hover:shadow-lg"
+        >
+            <ui-level class="flex-col w-full" vertical-align="top" space="xs">
+                <p class="text-white">
+                    Avec
+                    {{
+                        useFullName(
+                            training.attributes.trainer.data.attributes
+                                .firstName,
+                            training.attributes.trainer.data.attributes.lastName
+                        )
+                    }}
+                </p>
+                <p class="text-white text-lg">
+                    {{ training.attributes.title }}
+                </p>
+                <p class="text-white">
+                    {{ moment(training.attributes.date).format("HH[h]mm") }}
+                </p>
+            </ui-level>
+        </ui-wrapper>
+    </router-link>
 </template>
 
 <script lang="ts" setup>
 import moment from "moment";
+import { useFullName } from "../../composables/utils/useFullName";
 
 defineProps<{
     training: any;
