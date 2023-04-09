@@ -21,6 +21,7 @@
                         v-model="password"
                         class="mt-2 w-88"
                         type="password"
+                        @enter="user.handleSignIn({ email, password })"
                     ></UiInput>
                 </div>
             </ui-level>

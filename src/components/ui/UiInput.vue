@@ -16,6 +16,7 @@
             :disabled="disabled"
             :type="type"
             class="outline-none w-full placeholder-gray-400 disabled:text-gray-500"
+            @keyup.enter="emit('enter')"
             :class="[
                 {
                     'text-white': accent === 'white',
@@ -111,7 +112,8 @@ withDefaults(
     }
 );
 
-defineEmits<{
+const emit = defineEmits<{
     (event: "update:modelValue", modelValue: string | boolean | number): void;
+    (event: "enter"): void;
 }>();
 </script>
