@@ -44,7 +44,11 @@
 
 <script lang="ts" setup>
 import { NCarousel } from "naive-ui";
+import { onMounted } from "vue";
 import { useUserRedirection } from "../composables/auth/useUserRedirection";
+import { userStore } from "../store/user";
+
+const user = userStore();
 
 const carouselItems = [
     {
@@ -84,6 +88,10 @@ const carouselItems = [
             "https://res.cloudinary.com/dlirhziq5/image/upload/v1679224289/asset_home_page_zm9mxd.png",
     },
 ];
+
+onMounted(() => {
+    user.handleUserSessionInfos();
+});
 </script>
 
 <style scoped>
