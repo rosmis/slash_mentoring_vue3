@@ -1,28 +1,57 @@
 <template>
-    <ui-wrapper container>
-        <ui-level class="flex-col" vertical-align="top">
-            <ui-level class="w-full">
-                <h1>Votre compte</h1>
-                <router-link
-                    class="rounded-lg bg-blue-800 text-white py-2 px-4"
-                    :to="{ name: 'Account-edit' }"
-                >
-                    Modifier
-                </router-link>
-            </ui-level>
+    <ui-page screen>
+        <ui-level space="none" class="h-full">
+            <ui-level class="flex-col h-full shadow-lg w-1/2 z-1">
+                <ui-wrapper padded class="w-[70%]">
+                    <ui-title size="3xl" color="dark-blue"
+                        >Votre compte</ui-title
+                    >
 
-            <div class="w-full grid gap-8 grid-cols-2">
-                <template v-for="(key, userInfo) in user.data" :key="userInfo">
-                    <AuthUserInfo
-                        :user-info="key"
-                        :user-info-title="userInfo"
-                        :avatar-img="avatarImg"
-                    />
-                </template>
-            </div>
-            <h1>Vos anciennes formations</h1>
+                    <ui-level class="flex-col" vertical-align="top">
+                        <template
+                            v-for="(key, userInfo) in user.data"
+                            :key="userInfo"
+                        >
+                            <AuthUserInfo
+                                :user-info="key"
+                                :user-info-title="userInfo"
+                                :avatar-img="avatarImg"
+                            />
+                        </template>
+                    </ui-level>
+                </ui-wrapper>
+            </ui-level>
+            <ui-level
+                class="flex-col h-full bg-[#F9F9FB] w-1/2"
+                vertical-align="top"
+            >
+                <ui-wrapper>
+                    <ui-title size="3xl" color="dark-blue"
+                        >Votre compte</ui-title
+                    >
+                    <!-- <router-link
+                        class="rounded-lg bg-blue-800 text-white py-2 px-4"
+                        :to="{ name: 'Account-edit' }"
+                    >
+                        Modifier
+                    </router-link> -->
+
+                    <ui-level class="flex-col" vertical-align="top">
+                        <template
+                            v-for="(key, userInfo) in user.data"
+                            :key="userInfo"
+                        >
+                            <AuthUserInfo
+                                :user-info="key"
+                                :user-info-title="userInfo"
+                                :avatar-img="avatarImg"
+                            />
+                        </template>
+                    </ui-level>
+                </ui-wrapper>
+            </ui-level>
         </ui-level>
-    </ui-wrapper>
+    </ui-page>
 </template>
 
 <script lang="ts" setup>
