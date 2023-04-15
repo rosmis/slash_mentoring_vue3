@@ -39,7 +39,10 @@
                         <ui-button
                             outlined
                             class="w-full"
-                            @click="showPreviousTrainings = true"
+                            @click="
+                                showPreviousTrainings = true;
+                                selectedUserInfo = null;
+                            "
                         >
                             Mes derniers tutorats
                         </ui-button>
@@ -62,7 +65,7 @@
                     />
 
                     <ui-level
-                        v-if="showPreviousTrainings && subscribedTrainings"
+                        v-else-if="showPreviousTrainings && subscribedTrainings"
                         class="flex-col mx-auto w-8/10"
                         vertical-align="top"
                     >
