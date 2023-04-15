@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useSessionUserInfos } from "../composables/auth/useSessionUserInfos";
 import { supabase } from "../supabase";
 import About from '../views/about/index.vue';
-import AccountEdit from '../views/account/edit.vue';
 import Account from '../views/account/index.vue';
 import Auth from '../views/auth/index.vue';
 import Information from '../views/auth/information/index.vue';
@@ -20,7 +19,6 @@ const router = createRouter({
         {path: '/auth/signup', name: 'SignUp', component: SignUp},
         {path: '/auth/information', name: 'Information', component: Information},
         {path: '/account', name: 'Account', component: Account},
-        {path: '/account/edit', name: 'Account-edit', component: AccountEdit},
         {path: '/dashboard', name: 'Dashboard', component: Dashboard},
         {path: '/training/:id', name: 'Training', component: Training},
     ]

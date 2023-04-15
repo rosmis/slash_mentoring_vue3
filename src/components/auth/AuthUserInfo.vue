@@ -1,7 +1,15 @@
 <template>
     <ui-wrapper class="w-full">
-        <ui-level space="lg" class="border-b-3 border-b-[#4640ea4b] py-4">
+        <ui-level
+            space="lg"
+            class="border-b-3 py-4"
+            :class="{
+                'border-b-[#1b098d49]': !isFieldEditing,
+                'border-b-[#1b098d]': isFieldEditing,
+            }"
+        >
             <p>{{ userInfoTitles[userInfoTitle] }} :</p>
+
             <ui-level>
                 <n-avatar
                     v-if="avatarImg && userInfoTitle === 'avatar_url'"
@@ -12,10 +20,30 @@
                 <p v-else-if="userInfo">{{ userInfo }}</p>
                 <p v-else class="text-gray-500">Non spécifié</p>
 
-                <ui-level class="border rounded-sm border-[#1A098D]">
+                <ui-level
+                    class="border rounded-sm cursor-pointer border-[#1A098D]"
+                    :class="{
+                        'bg-[#1A098D]': isFieldEditing,
+                        'transition hover:bg-[#1b098da0] hover:border-[#1b098da0]':
+                            !isFieldEditing,
+                    }"
+                    @click="
+                        emit('user-info', {
+                            userInfo,
+                            userInfoTitle,
+                            type:
+                                userInfoTitle === 'avatar_url'
+                                    ? 'image'
+                                    : 'text',
+                        })
+                    "
+                >
                     <mdicon
-                        class="text-[#1A098D]"
-                        name="chevron-down"
+                        :class="{
+                            '!text-white': isFieldEditing,
+                            'text-[#1A098D] hover:text-white': !isFieldEditing,
+                        }"
+                        :name="isFieldEditing ? 'chevron-up' : 'chevron-down'"
                         width="15"
                         height="15"
                     />
@@ -35,5 +63,17 @@ defineProps<{
     userInfo: string | null;
     userInfoTitle: string | null;
     avatarImg: string | null;
+    isFieldEditing: boolean;
+}>();
+
+const emit = defineEmits<{
+    (
+        event: "user-info",
+        value: {
+            userInfo: string;
+            userInfoTitle: string;
+            type: "text" | "image";
+        }
+    ): void;
 }>();
 </script>

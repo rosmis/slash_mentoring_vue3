@@ -41,8 +41,17 @@
         ]"
     >
         <p v-if="title" class="flex gap-2 items-center">
-            <UiIcon v-if="icon" :size="size" :icon="icon" />
-            <UiIcon v-else-if="iconPath" :size="size" :path="iconPath" />
+            <mdicon
+                v-if="icon"
+                :name="icon"
+                :class="{
+                    'text-blue-700': color === 'blue',
+                    'text-green-700': color === 'green',
+                    'text-red-700': color === 'red',
+                    'text-yellow-700': color === 'yellow',
+                    'text-gray-700': color === 'gray',
+                }"
+            />
 
             <span class="text-xs tracking-widest uppercase">
                 {{ title }}
@@ -50,8 +59,17 @@
         </p>
 
         <template v-else>
-            <UiIcon v-if="icon" :size="size" :icon="icon" />
-            <UiIcon v-else-if="iconPath" :size="size" :path="iconPath" />
+            <mdicon
+                v-if="icon"
+                :name="icon"
+                :class="{
+                    'text-blue-700': color === 'blue',
+                    'text-green-700': color === 'green',
+                    'text-red-700': color === 'red',
+                    'text-yellow-700': color === 'yellow',
+                    'text-gray-700': color === 'gray',
+                }"
+            />
         </template>
 
         <slot>
@@ -63,7 +81,6 @@
 <script lang="ts" setup>
 defineProps<{
     icon?: string;
-    iconPath?: string;
     value?: string;
     size?: string;
     color?: string;
