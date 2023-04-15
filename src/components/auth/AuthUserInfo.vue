@@ -21,6 +21,7 @@
                 <p v-else class="text-gray-500">Non spécifié</p>
 
                 <ui-level
+                    v-if="!disabled"
                     class="border rounded-sm cursor-pointer border-[#1A098D]"
                     :class="{
                         'bg-[#1A098D]': isFieldEditing,
@@ -34,6 +35,8 @@
                             type:
                                 userInfoTitle === 'avatar_url'
                                     ? 'image'
+                                    : userInfoTitle === 'phone_number'
+                                    ? 'phoneNumber'
                                     : 'text',
                         })
                     "
@@ -48,6 +51,14 @@
                         height="15"
                     />
                 </ui-level>
+
+                <mdicon
+                    v-else
+                    name="lock-outline"
+                    width="15"
+                    height="15"
+                    class="text-[#1A098D]"
+                />
             </ui-level>
         </ui-level>
     </ui-wrapper>
@@ -62,8 +73,9 @@ const userInfoTitles = useUserInfos();
 defineProps<{
     userInfo: string | null;
     userInfoTitle: string | null;
-    avatarImg: string | null;
-    isFieldEditing: boolean;
+    avatarImg?: string | null;
+    isFieldEditing?: boolean;
+    disabled?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -72,7 +84,7 @@ const emit = defineEmits<{
         value: {
             userInfo: string;
             userInfoTitle: string;
-            type: "text" | "image";
+            type: "text" | "image" | "phoneNumber";
         }
     ): void;
 }>();

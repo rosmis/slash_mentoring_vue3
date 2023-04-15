@@ -203,6 +203,7 @@ async function save() {
                 full_name: user.value.firstName + " " + user.value.lastName,
                 first_name: user.value.firstName,
                 last_name: user.value.lastName,
+                phone_number: "+33" + user.value.phone,
                 class: user.value.class,
                 domains: user.value.domains,
                 did_user_register: true,

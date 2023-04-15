@@ -25,6 +25,11 @@
                                 @user-info="selectedUserInfo = $event"
                             />
                         </template>
+                        <AuthUserInfo
+                            :user-info="userSession.user.email"
+                            user-info-title="email"
+                            disabled
+                        />
                     </ui-level>
                 </ui-wrapper>
             </ui-level>
@@ -54,6 +59,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from "vue";
 import { userStore } from "../../store/user";
+import { userSession } from "../../types/userSession";
 
 const user = userStore();
 

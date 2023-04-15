@@ -4,21 +4,54 @@
             userInfoTitles[selectedUserInfo.userInfoTitle]
         }}</ui-title>
 
-        <ui-wrapper padded color="white" shadow rounded="sm">
-            <ui-level space="lg">
-                <ui-profile-picture
-                    v-if="selectedUserInfo.type === 'image'"
-                    :path="infoInput"
-                    @update:path="infoInput = $event"
-                    size="5"
-                    class="rounded"
+        <ui-wrapper padded color="white" shadow rounded="sm" class="w-full">
+            <ui-level class="flex-col" vertical-align="top" space="sm">
+                <ui-level space="lg">
+                    <ui-profile-picture
+                        v-if="selectedUserInfo.type === 'image'"
+                        :path="infoInput"
+                        @update:path="infoInput = $event"
+                        size="5"
+                        class="rounded"
+                    />
+
+                    <phone-input
+                        v-if="selectedUserInfo.type === 'phoneNumber'"
+                        class="rounded-lg mt-5 w-76"
+                        @phoneData="isPhoneNumberValid = !!$event.isValid"
+                        @phone="infoInput = `+${$event}`"
+                        :allowed="['FR', 'BE', 'CH']"
+                        defaultCountry="FR"
+                        :value="infoInput.replace('+', '')"
+                    >
+                        <p
+                            v-if="isPhoneNumberValid"
+                            class="text-xs text-green-600"
+                        >
+                            Numéro valide
+                        </p>
+                        <p v-else class="text-xs text-red-600">
+                            Numéro non valide
+                        </p>
+                    </phone-input>
+
+                    <ui-input v-else v-model="infoInput" />
+
+                    <ui-button
+                        outlined
+                        @click="updateProfile()"
+                        :loading="loading"
+                    >
+                        Enregistrer
+                    </ui-button>
+                </ui-level>
+                <ui-message
+                    v-if="selectedUserInfo.type === 'phoneNumber'"
+                    title="Veuillez vérifier que le numéro de téléphone que vous rentrez soit celui associé à votre compte Lydia"
+                    color="blue"
+                    size="sm"
+                    icon="information"
                 />
-
-                <ui-input v-else v-model="infoInput" />
-
-                <ui-button outlined @click="updateProfile()" :loading="loading">
-                    Enregistrer
-                </ui-button>
             </ui-level>
         </ui-wrapper>
     </ui-level>
@@ -42,7 +75,7 @@ const props = defineProps<{
     selectedUserInfo: {
         userInfo: string;
         userInfoTitle: string;
-        type: "text" | "image";
+        type: "text" | "image" | "phoneNumber";
     };
 }>();
 
@@ -51,13 +84,22 @@ const emit = defineEmits<{
 }>();
 
 const infoInput = ref(props.selectedUserInfo.userInfo);
-const avatar_path = ref("");
 const loading = ref(false);
+
+const isPhoneNumberValid = ref(false);
 
 async function updateProfile() {
     try {
         if (!infoInput.value) {
             message.error("Veuillez remplir le champ avant de le sauvegarder");
+            return;
+        }
+
+        if (
+            props.selectedUserInfo.type === "phoneNumber" &&
+            !isPhoneNumberValid.value
+        ) {
+            message.error("Veuillez rentrer un numéro de téléphone valide");
             return;
         }
 
