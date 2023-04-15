@@ -3,10 +3,14 @@
         rounded
         color="white"
         shadow
-        class="max-h-130 top-0 sticky overflow-y-scroll"
+        class="w-full max-h-130 top-0 sticky overflow-y-scroll"
     >
         <ui-level class="flex-col" vertical-align="top">
-            <ui-title color="dark-blue" class="mb-2" size="xl"
+            <ui-title
+                v-if="!showPreviousTrainings"
+                color="dark-blue"
+                class="mb-2"
+                size="xl"
                 >Mon Planning</ui-title
             >
 
@@ -61,6 +65,7 @@ import { useTrainingCardColors } from "../../composables/utils/useTrainingCardCo
 const props = defineProps<{
     subscribedTrainings: any[];
     selectedDate?: Date;
+    showPreviousTrainings?: boolean;
 }>();
 
 // TODO type this shit correctly
@@ -71,7 +76,9 @@ const sortedSubscribedDates = computed(() => [
             .map((training) => training.attributes.date)
             .filter(
                 (date) =>
-                    moment(date).isAfter(moment(), "day") &&
+                    (props.showPreviousTrainings
+                        ? moment(date).isBefore(moment(), "day")
+                        : moment(date).isAfter(moment(), "day")) &&
                     (props.selectedDate
                         ? useFrenchFormattedDate(date) ===
                           useFrenchFormattedDate(props.selectedDate)

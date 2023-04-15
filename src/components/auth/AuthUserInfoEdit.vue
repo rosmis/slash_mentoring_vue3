@@ -16,7 +16,7 @@
                     />
 
                     <phone-input
-                        v-if="selectedUserInfo.type === 'phoneNumber'"
+                        v-else-if="selectedUserInfo.type === 'phoneNumber'"
                         class="rounded-lg mt-5 w-76"
                         @phoneData="isPhoneNumberValid = !!$event.isValid"
                         @phone="infoInput = `+${$event}`"
