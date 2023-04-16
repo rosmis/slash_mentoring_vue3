@@ -16,6 +16,8 @@
                         v-model="search"
                         placeholder="Rechercher une formation..."
                         class="w-full"
+                        icon="magnify"
+                        cancelable
                     />
 
                     <UiLoader v-if="!isFetched" />

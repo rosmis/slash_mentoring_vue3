@@ -5,7 +5,7 @@
             class="left-4 text-gray-400 absolute"
             @click="$emit('click-icon', $event)"
         >
-            <i :class="[`mdi mdi-${icon}`, { 'mdi-24px': size === 'xl' }]"></i>
+            <mdicon :name="icon" width="20" height="20" />
         </span>
 
         <input
@@ -65,8 +65,7 @@
                 'right-2': size === 'xs',
             }"
         >
-            <i class="mdi mdi-close" :class="{ 'mdi-24px': size === 'xl' }">
-            </i>
+            <mdicon name="close" width="15" height="15" class="text-black" />
         </span>
     </div>
 </template>
