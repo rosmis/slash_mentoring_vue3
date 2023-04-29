@@ -3,7 +3,7 @@
         class="flex flex-col shadow-r min-h-90vh py-32 w-6/10 justify-center items-center"
     >
         <div class="w-88">
-            <UiTitle color="dark-blue">Dernière étape</UiTitle>
+            <UiTitle color="dark-blue">Récapitulatif</UiTitle>
         </div>
         <div class="mt-4">
             <p class="text-sm text-gray-800">Vos coordonnées</p>

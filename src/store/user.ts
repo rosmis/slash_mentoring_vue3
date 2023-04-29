@@ -114,7 +114,8 @@ export const userStore = defineStore({
                     return;
                 }
                 window.$message.success(
-                    "Un email vous a été envoyé pour valider votre inscription"
+                    "Un email vous a été envoyé pour valider votre inscription, vous pouvez fermer cette fenêtre",
+                    { duration: 5000 }
                 );
             } catch (error: any) {
                 console.error(`Une erreur s'est produite: ${error}`);

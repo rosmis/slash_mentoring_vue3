@@ -203,7 +203,7 @@ async function save() {
                 full_name: user.value.firstName + " " + user.value.lastName,
                 first_name: user.value.firstName,
                 last_name: user.value.lastName,
-                phone_number: "+33" + user.value.phone,
+                phone_number: user.value.phone,
                 class: user.value.class,
                 domains: user.value.domains,
                 did_user_register: true,
@@ -212,7 +212,7 @@ async function save() {
             .match({ id: user.value.id });
 
         await supabase.auth.updateUser({
-            phone: "+33" + user.value.phone,
+            phone: user.value.phone,
         });
         window.$message.success("Vos informations ont bien été sauvegardées");
 

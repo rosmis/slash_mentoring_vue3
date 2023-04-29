@@ -1,23 +1,9 @@
 <template>
-  <ui-level class="flex-col">
-    <p>Creer un compte</p>
-    <div>
-      <input type="email" placeholder="Your email" v-model="email" />
-      <input type="password" placeholder="Password" v-model="password" />
-    </div>
-
-    <button @click="user.handleSignUp({ email, password })">
-      Creez le compte
-    </button>
-  </ui-level>
+    <ui-wrapper>
+        <ui-level class="flex-col">
+            <AuthSignUpForm class="mt-8" />
+        </ui-level>
+    </ui-wrapper>
 </template>
 
-<script lang="ts" setup>
-import { ref } from "vue";
-import { userStore } from "../../../store/user";
-
-const user = userStore();
-
-const email = ref<string>("");
-const password = ref<string>("");
-</script>
+<script lang="ts" setup></script>

@@ -29,6 +29,10 @@ const publicRoutes = ['Home', 'About', 'SignUp']
 router.beforeEach(async (to, from, next) => {
     const authUser = await supabase.auth.getUser()
 
+    if(to.hash.includes('access_token') ) {
+        return next({ name: "Information" })
+    }
+
     if(publicRoutes.includes(to.name)) return next()
 
     if(!authUser.data.user && to.name !== 'Auth') {
@@ -43,11 +47,7 @@ router.beforeEach(async (to, from, next) => {
         }
     }
 
-    if(to.path.includes('verify?token=')) {
-        next()
-    } else {
-        next()
-    }
+    next()
 })
 
 
