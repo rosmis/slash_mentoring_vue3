@@ -53,7 +53,7 @@ const user = userStore();
 const carouselItems = [
     {
         title: "Apprenez avec des étudiants",
-        content: `Chacun apprendre à sa vitesse. Tirer en profit et
+        content: `Chacun apprendre à sa vitesse. Tirez en profit et
                         demander de l’aide <br />
                         à vos camarades de classes qui ont mieux compris un
                         concept.`,
@@ -61,29 +61,20 @@ const carouselItems = [
             "https://res.cloudinary.com/dlirhziq5/image/upload/v1679224289/asset_home_page_zm9mxd.png",
     },
     {
-        title: "Apprenez avec des étudiants",
-        content: `Chacun apprendre à sa vitesse. Tirer en profit et
-                        demander de l’aide <br />
-                        à vos camarades de classes qui ont mieux compris un
-                        concept.`,
+        title: "Développer vous en toute confiance",
+        content: `Améliorez vos connaissances afin que votre travail puisse se démarquer de la masse. <br /> Tout est enseigné à partir de la base. Aucune expérience n’est nécessaire.`,
+        backgroundUrl:
+            "https://res.cloudinary.com/dlirhziq5/image/upload/v1682768969/shutterstock_1674759265_adwjln.png",
+    },
+    {
+        title: "Faites-vous remarquer",
+        content: `Rejoignez la communauté qui aide les étudiants à <br /> faire de leur passion un emploi à plein temps.`,
         backgroundUrl:
             "https://res.cloudinary.com/dlirhziq5/image/upload/v1679224289/asset_home_page_zm9mxd.png",
     },
     {
-        title: "Apprenez avec des étudiants",
-        content: `Chacun apprendre à sa vitesse. Tirer en profit et
-                        demander de l’aide <br />
-                        à vos camarades de classes qui ont mieux compris un
-                        concept.`,
-        backgroundUrl:
-            "https://res.cloudinary.com/dlirhziq5/image/upload/v1679224289/asset_home_page_zm9mxd.png",
-    },
-    {
-        title: "Apprenez avec des étudiants",
-        content: `Chacun apprendre à sa vitesse. Tirer en profit et
-                        demander de l’aide <br />
-                        à vos camarades de classes qui ont mieux compris un
-                        concept.`,
+        contentImage:
+            "https://res.cloudinary.com/dlirhziq5/image/upload/v1682768858/logo_white_xzf75p.png",
         backgroundUrl:
             "https://res.cloudinary.com/dlirhziq5/image/upload/v1679224289/asset_home_page_zm9mxd.png",
     },
