@@ -40,6 +40,11 @@
                             />
                         </template>
                     </div>
+
+                    <p v-else class="text-sm text-gray-400">
+                        Aucuns tutorats de programmés, veuillez revenir plus
+                        tard !
+                    </p>
                 </ui-level>
 
                 <UiLoader v-if="!isSubscribedTrainingsFetched" />
@@ -72,7 +77,7 @@ const { data: trainings, isFetched } = useQuery(["trainings"], () =>
     axios.get(
         `${
             import.meta.env.VITE_STRAPI_URL
-        }/api/trainings?populate=trainer.profilePicture,backgroundImage`,
+        }/api/trainings?filters[date][$gt]=${new Date().toISOString()}&populate=trainer.profilePicture,backgroundImage`,
         headerOptions
     )
 );
