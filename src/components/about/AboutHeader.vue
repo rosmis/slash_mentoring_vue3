@@ -4,7 +4,7 @@
             class="bg-cover rounded flex-col h-120"
             :style="{
                 backgroundImage: `linear-gradient(0deg, rgba(26,9,140,0.4) 0%, rgba(16,14,81,0.4) 100%),
-                            url(https://res.cloudinary.com/dlirhziq5/image/upload/v1681054379/about_banner_gseyqo.png)`,
+                            url(https://res.cloudinary.com/dlirhziq5/image/upload/v1682855827/about_banner_gseyqo.png)`,
             }"
             align="center"
         >
@@ -33,7 +33,7 @@
                     space="lg"
                     :style="{
                         backgroundImage: `linear-gradient(rgba(0, 10, 24, 0.5),rgba(0, 10, 24, 0.5)),
-                            url(./src/assets/home/shutterstock_1704188839.png)`,
+                            url(https://res.cloudinary.com/dlirhziq5/image/upload/v1682856244/shutterstock_1704188839_qatxi4.png)`,
                     }"
                 >
                     <ui-wrapper>
@@ -48,13 +48,13 @@
                     </ui-wrapper>
                 </ui-level>
                 <ui-level
-                    class="bg-no-repeat bg-cover flex-col rounded-2xl h-80"
+                    class="bg-no-repeat bg-cover flex-col rounded-2xl h-80 backgroundPosition"
                     vertical-align="top"
                     align="right"
                     space="lg"
                     :style="{
                         backgroundImage: `linear-gradient(rgba(0, 10, 24, 0.5),rgba(0, 10, 24, 0.5)),
-                            url(./src/assets/home/shutterstock_1674759265.png)`,
+                            url(https://res.cloudinary.com/dlirhziq5/image/upload/v1682855788/shutterstock_1674759265_adwjln.png)`,
                     }"
                 >
                     <ui-wrapper>
@@ -70,13 +70,13 @@
                     </ui-wrapper>
                 </ui-level>
                 <ui-level
-                    class="bg-no-repeat bg-cover flex-col rounded-2xl h-80"
+                    class="bg-no-repeat bg-cover flex-col rounded-2xl h-80 backgroundPosition"
                     vertical-align="top"
                     align="right"
                     space="lg"
                     :style="{
                         backgroundImage: `linear-gradient(rgba(0, 10, 24, 0.5),rgba(0, 10, 24, 0.5)),
-                            url(./src/assets/home/priscilla-du-preez-XkKCui44iM0-unsplash.png)`,
+                            url(https://res.cloudinary.com/dlirhziq5/image/upload/v1682856104/asset_home_page_ercw0o.png)`,
                     }"
                 >
                     <ui-wrapper>
@@ -93,7 +93,9 @@
 
             <ui-wrapper padded>
                 <ui-level align="center" space="lg">
-                    <ui-button accent="secondary">Devenir mentor</ui-button>
+                    <ui-button accent="secondary" @click="$emit('redirect')"
+                        >Devenir mentor</ui-button
+                    >
                     <ui-button @click="useUserRedirection('Dashboard')"
                         >Suivre un cours</ui-button
                     >
@@ -106,3 +108,9 @@
 <script lang="ts" setup>
 import { useUserRedirection } from "../../composables/auth/useUserRedirection";
 </script>
+
+<style scoped>
+.backgroundPosition {
+    background-position: 30% 100%;
+}
+</style>

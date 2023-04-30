@@ -1,7 +1,7 @@
 <template>
     <ui-page>
         <ui-level class="flex-col">
-            <AboutHeader />
+            <AboutHeader @redirect="scroll(contactForm)" />
             <AboutOffer />
         </ui-level>
 
@@ -14,12 +14,16 @@
         </ui-level>
 
         <AboutQA />
-        <AboutContact />
+
+        <div ref="contactForm">
+            <AboutContact />
+        </div>
     </ui-page>
 </template>
 
 <script lang="ts" setup>
 import axios from "axios";
+import { nextTick, ref } from "vue";
 import { useQuery } from "vue-query";
 import { headerOptions } from "../../composables/auth/useHeadersToken";
 import { useUserRedirection } from "../../composables/auth/useUserRedirection";
@@ -33,4 +37,16 @@ const { data: trainers } = useQuery(
         ),
     { refetchOnWindowFocus: false }
 );
+
+const contactForm = ref<HTMLDivElement>();
+
+function scroll(wrapper: HTMLDivElement) {
+    nextTick(() => {
+        window.scrollTo({
+            // nasty way of redirecting but don't understand why wrapper.clientHeight doesn't give correct value in this case
+            top: wrapper.clientHeight + 1400,
+            behavior: "smooth",
+        });
+    });
+}
 </script>
