@@ -43,7 +43,7 @@
                 </button>
                 <button
                     v-if="currentStepId < 3"
-                    @click="currentStepId += 1"
+                    @click="goToNextStep()"
                     :disabled="currentStepId === 3"
                     :class="{
                         'border-blue-200': currentStepId === 3,
@@ -220,6 +220,15 @@ async function save() {
     } catch (error) {
         window.$message.error(error);
     }
+}
+
+function goToNextStep() {
+    if (!user.value.phone) {
+        window.$message.error("Veuillez rentrer un numéro de téléphone");
+        return;
+    }
+
+    currentStepId.value += 1;
 }
 
 function checkRequiredFields() {

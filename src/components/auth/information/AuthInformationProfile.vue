@@ -30,7 +30,7 @@
                     @phone="phone = $event"
                     :allowed="['FR', 'BE', 'CH']"
                     defaultCountry="FR"
-                    value="0609324321"
+                    :value="phone ? phone : '0609716623'"
                 >
                     <p v-if="isPhoneNumberValid" class="text-xs text-green-600">
                         Numéro valide
