@@ -14,7 +14,10 @@ export function useUserTraining(trainingId: number) {
                     userSession.value.user.email
                 }&filters[trainingId][$eq]=${Number(trainingId)}`,
                 headerOptions
-            )
+            ),
+        {
+            refetchOnWindowFocus: false,
+        }
     );
 
     return {

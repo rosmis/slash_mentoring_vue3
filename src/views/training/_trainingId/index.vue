@@ -41,9 +41,10 @@
                         Se desinscrire
                     </ui-button>
                     <ui-button @click="payTraining()" :loading="loading">
-                        Payer
+                        Payer avec Lydia
                     </ui-button>
                 </ui-level>
+                <p v-else>Vous êtes bien inscrit monsieur</p>
                 <UiSlash size="lg" position="right" />
             </ui-level>
             <UiLoader v-else />
@@ -66,25 +67,33 @@
 import axios from "axios";
 import moment from "moment";
 import { NSkeleton, useMessage } from "naive-ui";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { useQuery } from "vue-query";
 import { useRoute } from "vue-router";
 import { headerOptions } from "../../../composables/auth/useHeadersToken";
 import { useUserTraining } from "../../../composables/trainings/useUserTraining";
+import { useLydiaStore } from "../../../store/lydia";
 import { userSession } from "../../../types/userSession";
 
 const route = useRoute();
 const message = useMessage();
+const lydiaStore = useLydiaStore();
+
 let loading = ref(false);
 let unsubscribeLoading = ref(false);
 
-let { data: training, refetch } = useQuery(["training", route.params.id], () =>
-    axios.get(
-        `${import.meta.env.VITE_STRAPI_URL}/api/trainings/${Number(
-            route.params.id
-        )}?populate=*`,
-        headerOptions
-    )
+let { data: training, refetch } = useQuery(
+    ["training", route.params.id],
+    () =>
+        axios.get(
+            `${import.meta.env.VITE_STRAPI_URL}/api/trainings/${Number(
+                route.params.id
+            )}?populate=*`,
+            headerOptions
+        ),
+    {
+        refetchOnWindowFocus: false,
+    }
 );
 
 const trainingCardContent = computed(() => [
@@ -119,6 +128,35 @@ const trainingCardContent = computed(() => [
 ]);
 
 const { userTraining, refetchUserTraining } = useUserTraining(+route.params.id);
+
+watch(
+    userTraining,
+    async () => {
+        if (
+            userTraining &&
+            userTraining.value.data.data[0].attributes.request_uuid
+        ) {
+            const response = await lydiaStore.checkPayementStatus(
+                userTraining.value.data.data[0].attributes.request_uuid
+            );
+
+            if (response.state === 1) {
+                await axios.put(
+                    `${import.meta.env.VITE_STRAPI_URL}/api/user-trainings/${
+                        userTraining.value.data.data[0].id
+                    }`,
+                    {
+                        data: {
+                            didUserPay: true,
+                        },
+                    },
+                    headerOptions
+                );
+            }
+        }
+    },
+    { deep: true }
+);
 
 async function createUserTraining() {
     if (!training) return;
@@ -204,17 +242,24 @@ async function unSubscribe() {
 async function payTraining() {
     loading.value = true;
     try {
+        const lydiaResponse = await lydiaStore.makeLydiaPayement(
+            training.value.data.data.attributes.price
+        );
+
         await axios.put(
-            `${import.meta.env.VITE_STRAPI_URL}/user-trainings/${
+            `${import.meta.env.VITE_STRAPI_URL}/api/user-trainings/${
                 userTraining.value.data.data[0].id
             }`,
             {
                 data: {
-                    didUserPay: true,
+                    request_uuid: lydiaResponse.request_uuid,
                 },
             },
             headerOptions
         );
+
+        window.location.href = lydiaResponse.mobile_url;
+
         loading.value = false;
         message.success("Vous êtes bien inscrit monsieur");
         refetchUserTraining.value();
