@@ -36,7 +36,7 @@
                     'border-b-white border-b !rounded-none': outlined,
                 },
                 {
-                    'h-12 px-6 text-lg': size === 'lg',
+                    'h-12 px-6': size === 'lg',
                     'h-10 px-4': !size,
                     'h-8 px-3 text-sm': size === 'sm',
                     'h-6 px-2 text-xs': size === 'xs',

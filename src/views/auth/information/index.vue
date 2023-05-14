@@ -67,11 +67,12 @@
 </template>
 
 <script setup lang="ts">
-import { NStep, NSteps, SelectGroupOption, SelectOption } from "naive-ui";
+import { NStep, NSteps } from "naive-ui";
 import { SelectMixedOption } from "naive-ui/es/select/src/interface";
 import { computed, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { supabase } from "../../../supabase";
+import { classes } from "../../../types/classes";
 
 const router = useRouter();
 
@@ -125,47 +126,6 @@ const currentStep = computed<string | undefined>(() => {
         ? "summary"
         : undefined;
 });
-
-const classes: Array<SelectOption | SelectGroupOption> = [
-    {
-        type: "group",
-        label: "ESP",
-        key: "ESP",
-        children: [
-            {
-                label: "ESP B1",
-                value: "ESP B1",
-            },
-            {
-                label: "ESP B2",
-                value: "ESP B2",
-            },
-            {
-                label: "ESP B3",
-                value: "ESP B3",
-            },
-        ],
-    },
-    {
-        type: "group",
-        label: "ESD",
-        key: "ESD",
-        children: [
-            {
-                label: "ESD B1",
-                value: "ESD B1",
-            },
-            {
-                label: "ESD B2",
-                value: "ESD B2",
-            },
-            {
-                label: "ESD B3",
-                value: "ESD B3",
-            },
-        ],
-    },
-];
 
 const domains: SelectMixedOption[] = [
     { label: "Motion Design", value: "Motion Design" },

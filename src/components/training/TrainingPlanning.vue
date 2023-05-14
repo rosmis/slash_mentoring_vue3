@@ -1,64 +1,84 @@
 <template>
-    <ui-wrapper
-        rounded
-        color="white"
-        shadow
-        class="w-full max-h-130 top-0 sticky overflow-y-scroll"
-    >
-        <ui-level class="flex-col" vertical-align="top">
-            <ui-title
-                v-if="!showPreviousTrainings"
-                color="dark-blue"
-                class="mb-2"
-                size="xl"
-                >Mon Planning</ui-title
-            >
+    <ui-level class="flex-col">
+        <ui-button
+            accent="secondary"
+            class="w-full"
+            icon="account-clock-outline"
+            size="lg"
+            @click="isSuggestedTrainingModalOpen = true"
+        >
+            Proposer un nouveau cours
+        </ui-button>
 
-            <ui-level
-                v-if="sortedSubscribedDates && sortedSubscribedDates.length"
-                class="flex-col w-full"
-                vertical-align="top"
-            >
-                <template
-                    v-for="(
-                        sortedSubscribedDate, dateIndex
-                    ) in sortedSubscribedDates"
-                    :key="`date-${dateIndex}`"
+        <ui-wrapper
+            rounded
+            color="white"
+            shadow
+            class="w-full max-h-130 top-0 sticky overflow-y-scroll"
+        >
+            <ui-level class="flex-col" vertical-align="top">
+                <ui-title
+                    v-if="!showPreviousTrainings"
+                    color="dark-blue"
+                    class="mb-2"
+                    size="xl"
+                    >Mon Planning</ui-title
                 >
-                    <p class="text-[#1A098C]">
-                        {{ useFrenchFormattedDate(sortedSubscribedDate) }}
-                    </p>
 
-                    <TrainingPlanningCard
-                        v-for="(training, index) in subscribedTrainings.filter(
-                            (training) =>
-                                useFrenchFormattedDate(
-                                    training.attributes.date
-                                ) ===
-                                useFrenchFormattedDate(sortedSubscribedDate)
-                        )"
-                        :key="`training-${index}`"
-                        :training="training"
-                        :color="
-                            useTrainingCardColors()[
-                                dateIndex % useTrainingCardColors().length
-                            ]
-                        "
-                    />
-                </template>
+                <ui-level
+                    v-if="sortedSubscribedDates && sortedSubscribedDates.length"
+                    class="flex-col w-full"
+                    vertical-align="top"
+                >
+                    <template
+                        v-for="(
+                            sortedSubscribedDate, dateIndex
+                        ) in sortedSubscribedDates"
+                        :key="`date-${dateIndex}`"
+                    >
+                        <p class="text-[#1A098C]">
+                            {{ useFrenchFormattedDate(sortedSubscribedDate) }}
+                        </p>
+
+                        <TrainingPlanningCard
+                            v-for="(
+                                training, index
+                            ) in subscribedTrainings.filter(
+                                (training) =>
+                                    useFrenchFormattedDate(
+                                        training.attributes.date
+                                    ) ===
+                                    useFrenchFormattedDate(sortedSubscribedDate)
+                            )"
+                            :key="`training-${index}`"
+                            :training="training"
+                            :color="
+                                useTrainingCardColors()[
+                                    dateIndex % useTrainingCardColors().length
+                                ]
+                            "
+                        />
+                    </template>
+                </ui-level>
+
+                <p v-else-if="props.selectedDate">
+                    Vous n'êtes inscrit à aucun cour ce jour
+                </p>
+                <p v-else>Vous n'êtes inscrit à aucuns cours</p>
             </ui-level>
+        </ui-wrapper>
 
-            <p v-else-if="props.selectedDate">
-                Vous n'êtes inscrit à aucun cour ce jour
-            </p>
-            <p v-else>Vous n'êtes inscrit à aucuns cours</p>
-        </ui-level>
-    </ui-wrapper>
+        <ui-modal v-model="isSuggestedTrainingModalOpen">
+            <TrainingSuggestionModal
+                @close="isSuggestedTrainingModalOpen = false"
+            />
+        </ui-modal>
+    </ui-level>
 </template>
 
 <script lang="ts" setup>
 import moment from "moment";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useFrenchFormattedDate } from "../../composables/utils/useFrenchFormattedDate";
 import { useTrainingCardColors } from "../../composables/utils/useTrainingCardColors";
 
@@ -67,6 +87,8 @@ const props = defineProps<{
     selectedDate?: Date;
     showPreviousTrainings?: boolean;
 }>();
+
+const isSuggestedTrainingModalOpen = ref(false);
 
 // TODO type this shit correctly
 const sortedSubscribedDates = computed(() => [

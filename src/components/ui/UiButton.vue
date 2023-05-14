@@ -12,13 +12,15 @@
 
             {
                 xl: ['h-16 text-xl px-8', { 'rounded-3xl': !rounded }],
-                lg: ['h-12 text-lg px-6', { 'rounded-lg': !rounded }],
+                lg: ['h-12 text-base px-6', { 'rounded-lg': !rounded }],
                 base: ['h-10 px-8 py-4', { 'rounded-lg': !rounded }],
                 sm: ['h-8 text-sm px-3', { 'rounded-lg': !rounded }],
                 xs: ['h-6 text-xs px-2', { 'rounded-md': !rounded }],
             }[size],
 
             {
+                'text-white !bg-transparent not-disabled:hover:bg-slate-200':
+                    transparent,
                 'text-white bg-[#1A098C] not-disabled:hover:bg-[#4540EA]':
                     !accent || accent === 'primary',
                 '!text-white bg-[#00C4B3] not-disabled:hover:bg-[#71E2C1]':
@@ -29,7 +31,9 @@
         ]"
     >
         <ui-level space="sm">
+            <mdicon v-if="icon" :name="icon" width="20" />
             <slot></slot>
+
             <mdicon
                 v-if="loading"
                 name="loading"
@@ -50,6 +54,8 @@ withDefaults(
         outlined?: boolean;
         rounded?: boolean;
         loading?: boolean;
+        transparent?: boolean;
+        icon?: string;
         accent?: string;
         size?: string;
     }>(),

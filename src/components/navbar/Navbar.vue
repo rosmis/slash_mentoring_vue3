@@ -1,5 +1,5 @@
 <template>
-    <ui-wrapper class="z-999 navbar relative">
+    <ui-wrapper class="z-30 navbar relative">
         <ui-level>
             <router-link :to="{ name: 'Home' }">
                 <img

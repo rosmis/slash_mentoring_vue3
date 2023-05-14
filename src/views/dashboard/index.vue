@@ -17,6 +17,7 @@
                         placeholder="Rechercher une formation..."
                         class="w-full"
                         icon="magnify"
+                        size="lg"
                         cancelable
                     />
 
