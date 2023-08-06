@@ -13,6 +13,7 @@
     "@mdi/js": "^7.2.96",
     "@popperjs/core": "^2.11.6",
     "@supabase/supabase-js": "^2.2.2",
+    "@vue-stripe/vue-stripe": "^4.5.0",
     "axios": "^1.2.2",
     "dotenv": "^16.0.3",
     "mdi-vue": "^3.0.13",

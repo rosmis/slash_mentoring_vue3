@@ -1,55 +1,66 @@
 <template>
     <ui-page>
-        <ui-level class="h-full h-130" space="none">
-            <!-- <ui-wrapper padded class="w-3/5 relative"> -->
-            <ui-level
+        <UiLevel class="h-screen-md" space="none">
+            <UiLevel
                 v-if="training"
-                class="flex-col h-full px-8 w-3/5 test relative"
+                class="flex-col h-full px-8 w-3/5 relative"
                 align="center"
                 space="lg"
             >
-                <ui-title size="4xl" color="dark-blue">{{
+                <UiTitle size="4xl" color="dark-blue">{{
                     training.data.data.attributes.title
-                }}</ui-title>
+                }}</UiTitle>
 
-                <ui-level space="lg">
+                <UiLevel space="lg">
                     <TrainingInfoCard
                         v-for="(card, index) in trainingCardContent"
                         :key="`card-${index}`"
                         :card-content="card"
                     />
-                </ui-level>
-
-                <ui-button
-                    v-if="!userTraining.data.data.length"
-                    @click="createUserTraining()"
-                    :loading="loading"
-                >
-                    Je suis intéréssé
-                </ui-button>
-                <ui-level
-                    v-else-if="
-                        userTraining.data.data.length &&
-                        !userTraining.data.data[0].attributes.didUserPay
-                    "
-                >
-                    <ui-button
-                        outlined
-                        :loading="unsubscribeLoading"
-                        @click="unSubscribe()"
+                </UiLevel>
+                <template v-if="userTraining">
+                    <UiButton
+                        v-if="!userTraining.data.data.length"
+                        @click="createUserTraining()"
+                        :loading="loading"
                     >
-                        Se desinscrire
-                    </ui-button>
-                    <ui-button @click="payTraining()" :loading="loading">
-                        Payer avec Lydia
-                    </ui-button>
-                </ui-level>
-                <p v-else>Vous êtes bien inscrit monsieur</p>
+                        Je suis intéréssé
+                    </UiButton>
+                    <UiLevel
+                        v-else-if="
+                            userTraining.data.data.length &&
+                            !userTraining.data.data[0].attributes.didUserPay
+                        "
+                    >
+                        <UiButton
+                            outlined
+                            :loading="unsubscribeLoading"
+                            @click="unSubscribe()"
+                        >
+                            Se desinscrire
+                        </UiButton>
+                        <UiButton @click="submitPayment()" :loading="loading">
+                            Payer
+                        </UiButton>
+                    </UiLevel>
+                    <p v-else>Vous êtes bien inscrit monsieur</p>
+                </template>
+
                 <UiSlash size="lg" position="right" />
-            </ui-level>
+
+                <StripeCheckout
+                    v-if="stripePriceId"
+                    ref="stripeRef"
+                    mode="payment"
+                    :pk="stripePublishableKey"
+                    :line-items="stripeData.item"
+                    success-url="https://www.google.com/"
+                    cancel-url="https://fr.yahoo.com/"
+                />
+            </UiLevel>
             <UiLoader v-else />
 
-            <ui-level class="h-full w-2/5">
+            <UiLevel class="h-full w-2/5">
                 <div
                     v-if="training"
                     class="bg-no-repeat bg-cover h-full w-full"
@@ -58,31 +69,47 @@
                     }"
                 ></div>
                 <n-skeleton v-else class="h-130 w-full" />
-            </ui-level>
-        </ui-level>
+            </UiLevel>
+        </UiLevel>
     </ui-page>
 </template>
 
 <script lang="ts" setup>
+import { StripeCheckout } from "@vue-stripe/vue-stripe";
 import axios from "axios";
 import moment from "moment";
-import { NSkeleton, useMessage } from "naive-ui";
-import { computed, ref, watch } from "vue";
+import { useMessage } from "naive-ui";
+import { computed, ref } from "vue";
 import { useQuery } from "vue-query";
 import { useRoute } from "vue-router";
 import { headerOptions } from "../../../composables/auth/useHeadersToken";
 import { useUserTraining } from "../../../composables/trainings/useUserTraining";
-import { useLydiaStore } from "../../../store/lydia";
 import { userSession } from "../../../types/userSession";
 
 const route = useRoute();
 const message = useMessage();
-const lydiaStore = useLydiaStore();
+
+const stripeRef = ref();
+const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
+const stripePriceId = computed(
+    () => training.value?.data.data.attributes?.priceId
+);
+
+const stripeData = computed(() => {
+    return {
+        item: [
+            {
+                price: stripePriceId.value,
+                quantity: 1,
+            },
+        ],
+    };
+});
 
 let loading = ref(false);
 let unsubscribeLoading = ref(false);
 
-let { data: training, refetch } = useQuery(
+const { data: training, refetch } = useQuery(
     ["training", route.params.id],
     () =>
         axios.get(
@@ -96,10 +123,14 @@ let { data: training, refetch } = useQuery(
     }
 );
 
+function submitPayment() {
+    return stripeRef.value.redirectToCheckout();
+}
+
 const trainingCardContent = computed(() => [
     {
         title: "date",
-        content: moment(training?.value.data.data.attributes.date).format(
+        content: moment(training.value?.data.data.attributes.date).format(
             "DD/MM"
         ),
         color: "pink",
@@ -107,7 +138,7 @@ const trainingCardContent = computed(() => [
     },
     {
         title: "heure",
-        content: moment(training?.value.data.data.attributes.date).format(
+        content: moment(training.value?.data.data.attributes.date).format(
             "HH[h]mm"
         ),
         color: "light-blue",
@@ -115,48 +146,19 @@ const trainingCardContent = computed(() => [
     },
     {
         title: "durée",
-        content: training?.value.data.data.attributes.duration,
+        content: training.value?.data.data.attributes.duration,
         color: "green",
         icon: "timing",
     },
     {
         title: "places",
-        content: `${training?.value.data.data.attributes.maxUserTrainings} MAX`,
+        content: `${training.value?.data.data.attributes.maxUserTrainings} MAX`,
         color: "dark-blue",
         icon: "seats",
     },
 ]);
 
 const { userTraining, refetchUserTraining } = useUserTraining(+route.params.id);
-
-watch(
-    userTraining,
-    async () => {
-        if (
-            userTraining &&
-            userTraining.value.data.data[0].attributes.request_uuid
-        ) {
-            const response = await lydiaStore.checkPayementStatus(
-                userTraining.value.data.data[0].attributes.request_uuid
-            );
-
-            if (response.state === 1) {
-                await axios.put(
-                    `${import.meta.env.VITE_STRAPI_URL}/api/user-trainings/${
-                        userTraining.value.data.data[0].id
-                    }`,
-                    {
-                        data: {
-                            didUserPay: true,
-                        },
-                    },
-                    headerOptions
-                );
-            }
-        }
-    },
-    { deep: true }
-);
 
 async function createUserTraining() {
     if (!training) return;
@@ -235,35 +237,6 @@ async function unSubscribe() {
         refetchUserTraining.value();
         refetch.value();
     } catch (error: any) {
-        console.error(error);
-    }
-}
-
-async function payTraining() {
-    loading.value = true;
-    try {
-        const lydiaResponse = await lydiaStore.makeLydiaPayement(
-            training.value.data.data.attributes.price
-        );
-
-        await axios.put(
-            `${import.meta.env.VITE_STRAPI_URL}/api/user-trainings/${
-                userTraining.value.data.data[0].id
-            }`,
-            {
-                data: {
-                    request_uuid: lydiaResponse.request_uuid,
-                },
-            },
-            headerOptions
-        );
-
-        window.location.href = lydiaResponse.mobile_url;
-
-        loading.value = false;
-        message.success("Vous êtes bien inscrit monsieur");
-        refetchUserTraining.value();
-    } catch (error) {
         console.error(error);
     }
 }

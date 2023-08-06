@@ -39,6 +39,7 @@
             >
                 <ui-level align="left" class="h-full">
                     <div
+                        v-if="training.attributes.trainer.data"
                         class="bg-cover bg-no-repeat rounded-full h-12 ring-white ring-2 w-12"
                         :style="{
                             backgroundImage: `url(${training.attributes.trainer.data.attributes.profilePicture.data.attributes.url})`,
@@ -49,7 +50,10 @@
                         <p class="text-lg text-white">
                             {{ training.attributes.title }}
                         </p>
-                        <p class="text-white">
+                        <p
+                            v-if="training.attributes.trainer.data"
+                            class="text-white"
+                        >
                             {{
                                 training.attributes.trainer.data.attributes
                                     .firstName

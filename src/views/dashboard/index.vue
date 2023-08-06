@@ -74,25 +74,35 @@ const user = userStore();
 const search = ref("");
 const selectedDate = ref<Date>();
 
-const { data: trainings, isFetched } = useQuery(["trainings"], () =>
-    axios.get(
-        `${
-            import.meta.env.VITE_STRAPI_URL
-        }/api/trainings?filters[date][$gt]=${new Date().toISOString()}&populate=trainer.profilePicture,backgroundImage`,
-        headerOptions
-    )
-);
-
-const { data: subscribedTrainings, isFetched: isSubscribedTrainingsFetched } =
-    useQuery(["subscribedTrainings", userSession.value.user.email], () =>
+const { data: trainings, isFetched } = useQuery(
+    ["trainings"],
+    () =>
         axios.get(
             `${
                 import.meta.env.VITE_STRAPI_URL
-            }/api/trainings?filters[user_trainings][user][$eq]=${
-                userSession.value.user.email
-            }&populate=trainer`,
+            }/api/trainings?filters[date][$gt]=${new Date().toISOString()}&populate=trainer.profilePicture,backgroundImage`,
             headerOptions
-        )
+        ),
+    {
+        refetchOnWindowFocus: false,
+    }
+);
+
+const { data: subscribedTrainings, isFetched: isSubscribedTrainingsFetched } =
+    useQuery(
+        ["subscribedTrainings", userSession.value.user.email],
+        () =>
+            axios.get(
+                `${
+                    import.meta.env.VITE_STRAPI_URL
+                }/api/trainings?filters[user_trainings][user][$eq]=${
+                    userSession.value.user.email
+                }&populate=trainer`,
+                headerOptions
+            ),
+        {
+            refetchOnWindowFocus: false,
+        }
     );
 
 const filteredTrainings = computed(() => {
