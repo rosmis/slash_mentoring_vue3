@@ -23,7 +23,10 @@
 
                     <UiLoader v-if="!isFetched" />
                     <div
-                        v-if="filteredTrainings && filteredTrainings.data.data"
+                        v-if="
+                            filteredTrainings &&
+                            filteredTrainings.data.data.length
+                        "
                         class="w-full grid gap-8 grid-cols-2"
                     >
                         <template
@@ -42,7 +45,7 @@
                         </template>
                     </div>
 
-                    <p v-else class="text-sm text-gray-400">
+                    <p v-else class="text-sm text-center w-full text-gray-400">
                         Aucuns tutorats de programmés, veuillez revenir plus
                         tard !
                     </p>

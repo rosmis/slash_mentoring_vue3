@@ -79,15 +79,21 @@ import { StripeCheckout } from "@vue-stripe/vue-stripe";
 import axios from "axios";
 import moment from "moment";
 import { useMessage } from "naive-ui";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useQuery } from "vue-query";
 import { useRoute } from "vue-router";
 import { headerOptions } from "../../../composables/auth/useHeadersToken";
 import { useUserTraining } from "../../../composables/trainings/useUserTraining";
+import { userStore } from "../../../store/user";
 import { userSession } from "../../../types/userSession";
 
 const route = useRoute();
+const user = userStore();
 const message = useMessage();
+
+onMounted(() => {
+    user.handleUserSessionInfos();
+});
 
 const stripeRef = ref();
 const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
