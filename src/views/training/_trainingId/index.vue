@@ -49,13 +49,10 @@
                 <UiSlash size="lg" position="right" />
 
                 <StripeCheckout
-                    v-if="stripePriceId"
+                    v-if="userTrainingSessionId"
                     ref="stripeRef"
-                    mode="payment"
                     :pk="stripePublishableKey"
-                    :line-items="stripeData.item"
-                    success-url="https://www.google.com/"
-                    cancel-url="https://fr.yahoo.com/"
+                    :session-id="userTrainingSessionId"
                 />
             </UiLevel>
             <UiLoader v-else />
@@ -91,26 +88,21 @@ const route = useRoute();
 const user = userStore();
 const message = useMessage();
 
+const { userTraining, refetchUserTraining } = useUserTraining(+route.params.id);
+
+const userTrainingSessionId = computed(() => {
+    if (!userTraining.value || !userTraining.value?.data.data.length)
+        return undefined;
+
+    return userTraining.value?.data.data[0].attributes?.sessionId;
+});
+
 onMounted(() => {
     user.handleUserSessionInfos();
 });
 
 const stripeRef = ref();
 const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
-const stripePriceId = computed(
-    () => training.value?.data.data.attributes?.priceId
-);
-
-const stripeData = computed(() => {
-    return {
-        item: [
-            {
-                price: stripePriceId.value,
-                quantity: 1,
-            },
-        ],
-    };
-});
 
 let loading = ref(false);
 let unsubscribeLoading = ref(false);
@@ -164,19 +156,31 @@ const trainingCardContent = computed(() => [
     },
 ]);
 
-const { userTraining, refetchUserTraining } = useUserTraining(+route.params.id);
-
 async function createUserTraining() {
     if (!training) return;
+
+    loading.value = true;
+    let sessionId;
+    const userTrainingId = ref();
+
+    await axios
+        .post(
+            `${import.meta.env.VITE_STRAPI_URL}/api/session`,
+            {
+                trainingId: training.value.data.data.id,
+                priceId: training.value.data.data.attributes.priceId,
+            },
+            headerOptions
+        )
+        .then((response) => (sessionId = response.data.session.id));
 
     const userTraining = ref({
         user: userSession.value.user.email,
         trainingId: Number(route.params.id),
         didUserPay: false,
+        sessionId,
     });
-    const userTrainingId = ref();
 
-    loading.value = true;
     try {
         await axios
             .post(

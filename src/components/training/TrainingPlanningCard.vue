@@ -9,7 +9,7 @@
             class="cursor-pointer w-full transition-shadow hover:shadow-lg"
         >
             <ui-level class="flex-col w-full" vertical-align="top" space="xs">
-                <p class="text-white">
+                <p v-if="training.attributes.trainer.data" class="text-white">
                     Avec
                     {{
                         useFullName(
