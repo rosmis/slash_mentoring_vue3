@@ -30,7 +30,8 @@
                 <UiButton
                     accent="secondary"
                     class="w-full"
-                    @click="user.handleSignUp({ email, password })"
+                    :loading="loading"
+                    @click="signUp()"
                     >S'inscrire</UiButton
                 >
             </ui-level>
@@ -46,4 +47,17 @@ const user = userStore();
 
 const email = ref<string>("");
 const password = ref<string>("");
+const loading = ref(false);
+
+async function signUp() {
+    loading.value = true;
+
+    try {
+        user.handleSignUp({ email: email.value, password: password.value });
+
+        loading.value = false;
+    } catch (error) {
+        console.error(error);
+    }
+}
 </script>
