@@ -68,11 +68,11 @@
 
 <script setup lang="ts">
 import { NStep, NSteps } from "naive-ui";
-import { SelectMixedOption } from "naive-ui/es/select/src/interface";
 import { computed, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { supabase } from "../../../supabase";
 import { classes } from "../../../types/classes";
+import { domains } from "../../../types/domains";
 
 const router = useRouter();
 
@@ -109,7 +109,6 @@ const user = ref<{
 const requiredFields = ref<Record<string, boolean>>({
     id: false,
     email: false,
-    phone: false,
     firstName: false,
     lastName: false,
     domains: false,
@@ -127,21 +126,10 @@ const currentStep = computed<string | undefined>(() => {
         : undefined;
 });
 
-const domains: SelectMixedOption[] = [
-    { label: "Motion Design", value: "Motion Design" },
-    {
-        label: "Stratégie de communication",
-        value: "Stratégie de communication",
-    },
-    { label: "Création 3D", value: "Création 3D" },
-    { label: "Développement web", value: "Développement web" },
-];
-
 async function save() {
     requiredFields.value = {
         id: false,
         email: false,
-        phone: false,
         firstName: false,
         lastName: false,
         domains: false,
@@ -163,7 +151,6 @@ async function save() {
                 full_name: user.value.firstName + " " + user.value.lastName,
                 first_name: user.value.firstName,
                 last_name: user.value.lastName,
-                phone_number: user.value.phone,
                 class: user.value.class,
                 domains: user.value.domains,
                 did_user_register: true,
@@ -183,8 +170,8 @@ async function save() {
 }
 
 function goToNextStep() {
-    if (!user.value.phone) {
-        window.$message.error("Veuillez rentrer un numéro de téléphone");
+    if (!user.value.firstName || !user.value.lastName) {
+        window.$message.error("Veuillez votre prénom et nom de famille");
         return;
     }
 
@@ -206,10 +193,6 @@ function checkRequiredFields() {
 
     if (!user.value.lastName) {
         requiredFields.value.lastName = true;
-    }
-
-    if (!user.value.phone) {
-        requiredFields.value.phone = true;
     }
 }
 </script>

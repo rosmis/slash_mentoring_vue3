@@ -6,15 +6,7 @@
         <div class="w-88">
             <UiTitle color="dark-blue">Finalisation de votre compte</UiTitle>
         </div>
-        <!-- <UiMessage color="blue" class="mt-4 w-88">
-            <p>
-                Veuillez entrez votre numéro de téléphone qui est relié à votre
-                compte Lydia
-            </p>
-            <p class="mt-2">
-                Sans cela, vous ne pourrez participer à aucun cours.
-            </p>
-        </UiMessage> -->
+
         <div class="mt-4">
             <p class="text-sm text-gray-800">Vos coordonnées</p>
             <UiInput
@@ -61,9 +53,8 @@
                     class="border rounded-full bg-gray-100 border-blue-900 border-2 h-24 w-24"
                 >
                     <img
-                        class="rounded-full"
+                        class="bg-cover rounded-full h-full w-full"
                         v-bind:src="fileUrl || userAvatarUrl"
-                        alt=""
                     />
                 </div>
                 <label

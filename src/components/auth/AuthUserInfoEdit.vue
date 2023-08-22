@@ -45,13 +45,6 @@
                         Enregistrer
                     </ui-button>
                 </ui-level>
-                <ui-message
-                    v-if="selectedUserInfo.type === 'phoneNumber'"
-                    title="Veuillez vérifier que le numéro de téléphone que vous rentrez soit celui associé à votre compte Lydia"
-                    color="blue"
-                    size="sm"
-                    icon="information"
-                />
             </ui-level>
         </ui-wrapper>
     </ui-level>
