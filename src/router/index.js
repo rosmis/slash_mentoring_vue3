@@ -48,6 +48,14 @@ router.beforeEach(async (to, from, next) => {
     if (authUser.data.user) {
         const user = await useSessionUserInfos(authUser.data.user?.id);
 
+        //usecase for when tutor hasn't filled in his credit cards infos (boolean set to null by default)
+        if (
+            user.did_user_fill_credit_infos === false &&
+            to.name !== "Account"
+        ) {
+            return next({ name: "Account" });
+        }
+
         if (!user.did_user_register && to.name !== "Information") {
             return next({ name: "Information" });
         }

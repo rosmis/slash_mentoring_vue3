@@ -1,38 +1,59 @@
 <template>
-    <ui-page screen>
-        <ui-level space="none" class="h-full">
-            <ui-level class="flex-col h-full shadow-lg w-1/2 z-1">
+    <ui-page>
+        <ui-level space="none" class="h-full bg-[#F9F9FB]">
+            <ui-level class="bg-white flex-col h-full shadow-lg w-1/2 z-1">
                 <ui-wrapper padded class="w-[70%]">
                     <ui-title size="3xl" color="dark-blue" class="mb-4"
-                        >Votre compte</ui-title
-                    >
+                        >Votre compte
+                        {{ isUserValidTutor ? "tuteur" : "" }}
+                    </ui-title>
 
                     <ui-level class="flex-col" vertical-align="top">
-                        <template
-                            v-for="(key, userInfo) in user.data"
-                            :key="userInfo"
-                        >
-                            <AuthUserInfo
-                                :user-info="key"
-                                :user-info-title="userInfo"
-                                :avatar-img="avatarImg"
-                                :is-field-editing="
-                                    selectedUserInfo &&
-                                    selectedUserInfo.userInfoTitle === userInfo
-                                        ? true
-                                        : false
-                                "
-                                @user-info="
-                                    selectedUserInfo = $event;
-                                    showPreviousTrainings = false;
-                                "
-                            />
-                        </template>
-                        <AuthUserInfo
-                            :user-info="userSession.user.email"
-                            user-info-title="email"
-                            disabled
-                        />
+                        <n-tabs type="line" animated>
+                            <n-tab-pane name="student" tab="Informations élève">
+                                <template
+                                    v-for="(key, userInfo) in user.data"
+                                    :key="userInfo"
+                                >
+                                    <AuthUserInfo
+                                        :user-info="key"
+                                        :user-info-title="userInfo"
+                                        :avatar-img="avatarImg"
+                                        :is-field-editing="
+                                            selectedUserInfo &&
+                                            selectedUserInfo.userInfoTitle ===
+                                                userInfo
+                                                ? true
+                                                : false
+                                        "
+                                        @user-info="
+                                            selectedUserInfo = $event;
+                                            showPreviousTrainings = false;
+                                        "
+                                    />
+                                </template>
+                                <AuthUserInfo
+                                    :user-info="userSession.user.email"
+                                    user-info-title="email"
+                                    disabled
+                                />
+                                <p
+                                    class="text-center text-xs mb-4 text-gray-500"
+                                >
+                                    Pour toutes demandes de modification de mot
+                                    de passe veuillez vous rapprocher de
+                                    l'assistance
+                                </p>
+                            </n-tab-pane>
+
+                            <n-tab-pane
+                                name="tutor"
+                                :disabled="!isUserValidTutor"
+                                tab="Informations tuteur"
+                            >
+                                Informations tuteur
+                            </n-tab-pane>
+                        </n-tabs>
                     </ui-level>
 
                     <ui-level align="center" class="mx-auto mt-8 w-8/10">
@@ -48,12 +69,8 @@
                         </ui-button>
                     </ui-level>
                 </ui-wrapper>
-                <p class="text-center text-xs mb-4 text-gray-500">
-                    Pour toutes demandes de modification de mot de passe
-                    veuillez vous rapprocher de l'assistance
-                </p>
             </ui-level>
-            <ui-level class="flex-col h-full bg-[#F9F9FB] w-1/2">
+            <ui-level class="flex-col h-full w-1/2">
                 <ui-wrapper class="w-full" padded>
                     <AuthUserInfoEdit
                         v-if="selectedUserInfo"
@@ -95,6 +112,7 @@
 
 <script lang="ts" setup>
 import axios from "axios";
+import { NTabPane, NTabs } from "naive-ui";
 import { computed, onMounted, ref } from "vue";
 import { useQuery } from "vue-query";
 import { headerOptions } from "../../composables/auth/useHeadersToken";
@@ -105,6 +123,10 @@ const user = userStore();
 
 const selectedUserInfo = ref<{ userInfo: string; userInfoTitle: string }>(null);
 const showPreviousTrainings = ref(false);
+
+const isUserValidTutor = computed(
+    () => user.data.did_user_fill_credit_infos !== null
+);
 
 onMounted(() => {
     user.handleUserSessionInfos();

@@ -14,6 +14,7 @@ interface UserData {
     username: string | null;
     avatar_url: string | null;
     website: string | null;
+    did_user_fill_credit_infos: boolean | null;
 }
 
 interface UserInfos {
@@ -28,6 +29,7 @@ export const userStore = defineStore({
             avatar_url: null,
             username: null,
             full_name: null,
+            did_user_fill_credit_infos: null,
             website: null,
         },
         avatar_img: null,
