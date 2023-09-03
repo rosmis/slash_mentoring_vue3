@@ -1,6 +1,7 @@
 <template>
-    <ui-level class="flex-col">
+    <ui-level class="flex-col w-full">
         <ui-button
+            v-if="!hideTutoringButton"
             accent="secondary"
             class="w-full"
             icon="account-clock-outline"
@@ -86,6 +87,7 @@ const props = defineProps<{
     subscribedTrainings: any[];
     selectedDate?: Date;
     showPreviousTrainings?: boolean;
+    hideTutoringButton?: boolean;
 }>();
 
 const isSuggestedTrainingModalOpen = ref(false);

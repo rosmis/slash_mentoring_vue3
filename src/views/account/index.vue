@@ -117,6 +117,7 @@
                                 subscribedTrainings.data.data
                             "
                             show-previous-trainings
+                            hide-tutoring-button
                         />
                     </ui-level>
 
