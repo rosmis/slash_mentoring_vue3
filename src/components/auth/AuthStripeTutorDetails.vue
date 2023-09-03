@@ -1,7 +1,7 @@
 <template>
     <UiLevel class="flex-col" space="lg">
         <ui-message
-            v-if="!!props.userInfos.stripe_account_id"
+            v-if="!isUserAlreadyStripeVerifiedAccount"
             title="Des informations manquent à votre dossier de tuteur, veuillez le finaliser avant de pouvoir recevoir des fonds"
             color="blue"
             size="sm"
@@ -77,4 +77,6 @@ async function createExpressStripeAccount() {
         loading.value = false;
     }
 }
+
+defineExpose({ isUserAlreadyStripeVerifiedAccount });
 </script>

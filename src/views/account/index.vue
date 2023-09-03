@@ -53,9 +53,25 @@
                             <n-tab-pane
                                 name="tutor"
                                 :disabled="!isUserValidTutor"
-                                tab="Informations tuteur"
                             >
+                                <template #tab>
+                                    <p class="relative">
+                                        Informations tuteur
+
+                                        <mdicon
+                                            v-if="
+                                                isUserValidTutor &&
+                                                !isUserAlreadyStripeVerifiedAccount
+                                            "
+                                            name="information"
+                                            width="15"
+                                            class="-top-2 -right-4 text-blue-700 absolute"
+                                        />
+                                    </p>
+                                </template>
+
                                 <AuthStripeTutorDetails
+                                    ref="authStripeTutor"
                                     :user-infos="user.data"
                                 />
                             </n-tab-pane>
@@ -137,6 +153,12 @@ const isUserValidTutor = computed(
 onMounted(() => {
     user.handleUserSessionInfos();
 });
+
+const authStripeTutor = ref<{ isUserAlreadyStripeVerifiedAccount: boolean }>();
+
+const isUserAlreadyStripeVerifiedAccount = computed(
+    () => authStripeTutor.value?.isUserAlreadyStripeVerifiedAccount
+);
 
 const filteredUserData = computed(() => {
     if (!user.data) return {};
