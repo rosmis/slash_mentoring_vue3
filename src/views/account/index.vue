@@ -55,10 +55,6 @@
                                 :disabled="!isUserValidTutor"
                                 tab="Informations tuteur"
                             >
-                                <pre>
-                                {{ user.data }}
-                            </pre
-                                >
                                 <AuthStripeTutorDetails
                                     :user-infos="user.data"
                                 />
@@ -145,7 +141,8 @@ onMounted(() => {
 const filteredUserData = computed(() => {
     if (!user.data) return {};
 
-    const { id, did_user_fill_credit_infos, ...obj } = user.data;
+    const { id, did_user_fill_credit_infos, stripe_account_id, ...obj } =
+        user.data;
 
     return obj;
 });

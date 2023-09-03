@@ -16,6 +16,7 @@ export interface UserData {
     avatar_url: string | null;
     website: string | null;
     did_user_fill_credit_infos: boolean | null;
+    stripe_account_id: string | null;
 }
 
 export interface UserInfos {
@@ -32,6 +33,7 @@ export const userStore = defineStore({
             username: null,
             full_name: null,
             did_user_fill_credit_infos: null,
+            stripe_account_id: null,
             website: null,
         },
         avatar_img: null,
@@ -78,7 +80,7 @@ export const userStore = defineStore({
             let { data } = await supabase
                 .from("profiles")
                 .select(
-                    `avatar_url, full_name, phone_number, did_user_fill_credit_infos, id`
+                    `avatar_url, full_name, phone_number, did_user_fill_credit_infos, id, stripe_account_id`
                 )
                 .eq("id", userSession.value.user.id)
                 .single();
