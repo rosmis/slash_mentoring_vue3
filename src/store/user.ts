@@ -9,7 +9,8 @@ interface Credentials {
     provider?: "google" | undefined;
 }
 
-interface UserData {
+export interface UserData {
+    id: string | null;
     full_name: string | null;
     username: string | null;
     avatar_url: string | null;
@@ -17,7 +18,7 @@ interface UserData {
     did_user_fill_credit_infos: boolean | null;
 }
 
-interface UserInfos {
+export interface UserInfos {
     data: UserData;
     avatar_img: string | null;
 }
@@ -26,6 +27,7 @@ export const userStore = defineStore({
     id: "user",
     state: (): UserInfos => ({
         data: {
+            id: null,
             avatar_url: null,
             username: null,
             full_name: null,
@@ -75,7 +77,9 @@ export const userStore = defineStore({
             if (!userSession.value) return;
             let { data } = await supabase
                 .from("profiles")
-                .select(`avatar_url, full_name, phone_number`)
+                .select(
+                    `avatar_url, full_name, phone_number, did_user_fill_credit_infos, id`
+                )
                 .eq("id", userSession.value.user.id)
                 .single();
 

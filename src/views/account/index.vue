@@ -8,11 +8,15 @@
                         {{ isUserValidTutor ? "tuteur" : "" }}
                     </ui-title>
 
-                    <ui-level class="flex-col" vertical-align="top">
+                    <ui-level
+                        v-if="user.data"
+                        class="flex-col"
+                        vertical-align="top"
+                    >
                         <n-tabs type="line" animated>
                             <n-tab-pane name="student" tab="Informations élève">
                                 <template
-                                    v-for="(key, userInfo) in user.data"
+                                    v-for="(key, userInfo) in filteredUserData"
                                     :key="userInfo"
                                 >
                                     <AuthUserInfo
@@ -51,7 +55,13 @@
                                 :disabled="!isUserValidTutor"
                                 tab="Informations tuteur"
                             >
-                                Informations tuteur
+                                <pre>
+                                {{ user.data }}
+                            </pre
+                                >
+                                <AuthStripeTutorDetails
+                                    :user-infos="user.data"
+                                />
                             </n-tab-pane>
                         </n-tabs>
                     </ui-level>
@@ -125,11 +135,19 @@ const selectedUserInfo = ref<{ userInfo: string; userInfoTitle: string }>(null);
 const showPreviousTrainings = ref(false);
 
 const isUserValidTutor = computed(
-    () => user.data.did_user_fill_credit_infos !== null
+    () => user.data?.did_user_fill_credit_infos !== null
 );
 
 onMounted(() => {
     user.handleUserSessionInfos();
+});
+
+const filteredUserData = computed(() => {
+    if (!user.data) return {};
+
+    const { id, did_user_fill_credit_infos, ...obj } = user.data;
+
+    return obj;
 });
 
 const { data: subscribedTrainings } = useQuery(
