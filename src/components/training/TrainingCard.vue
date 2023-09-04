@@ -39,12 +39,32 @@
             >
                 <ui-level align="left" class="h-full">
                     <div
-                        v-if="training.attributes.trainer.data"
+                        v-if="
+                            training.attributes.trainer.data &&
+                            training.attributes.trainer.data.attributes
+                                .profilePicture.data
+                        "
                         class="bg-cover bg-no-repeat rounded-full h-12 ring-white ring-2 w-12"
                         :style="{
-                            backgroundImage: `url(${training.attributes.trainer.data.attributes.profilePicture.data.attributes.url})`,
+                            backgroundImage: `url(${training.attributes.trainer.data.attributes.profilePicture.data?.attributes.url})`,
                         }"
                     ></div>
+
+                    <n-avatar
+                        v-else
+                        round
+                        :style="{
+                            color: 'white',
+                            backgroundColor: color,
+                            border: '1px solid white',
+                        }"
+                    >
+                        {{
+                            training.attributes.trainer.data.attributes.firstName
+                                .charAt(0)
+                                .toUpperCase()
+                        }}
+                    </n-avatar>
 
                     <ui-level class="flex-col" space="xs" vertical-align="top">
                         <p class="text-lg text-white">

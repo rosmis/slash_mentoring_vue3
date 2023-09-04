@@ -53,6 +53,9 @@ router.beforeEach(async (to, from, next) => {
             user.did_user_fill_credit_infos === false &&
             to.name !== "Account"
         ) {
+            window.$message.error(
+                "Veuillez rentrer vos informations de tuteur avant de pouvoir changer de page"
+            );
             return next({ name: "Account" });
         }
 

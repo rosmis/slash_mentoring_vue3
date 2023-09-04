@@ -163,11 +163,14 @@ const { data: stripeUserData } = useQuery(
                 user.data.stripe_account_id
             }`
         ),
-    { enabled: computed(() => !!user.data?.stripe_account_id) }
+    {
+        enabled: computed(() => !!user.data?.stripe_account_id),
+        refetchOnWindowFocus: false,
+    }
 );
 
 const isUserAlreadyStripeVerifiedAccount = computed(() => {
-    if (!stripeUserData.value) return false;
+    if (!stripeUserData.value) return true;
 
     return stripeUserData.value.data.isUserFullyVerified;
 });

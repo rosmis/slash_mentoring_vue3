@@ -1,14 +1,14 @@
 <template>
     <div class="flex w-full">
         <AuthInformationProfile
-            v-model="user"
             v-if="currentStep === 'profile'"
+            v-model="user"
         />
         <AuthInformationExperience
+            v-if="currentStep === 'experience'"
             v-model="user"
             :domains="domains"
             :classes="classes"
-            v-if="currentStep === 'experience'"
         ></AuthInformationExperience>
 
         <AuthInformationSummary
