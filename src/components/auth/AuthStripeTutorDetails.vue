@@ -1,7 +1,7 @@
 <template>
     <UiLevel class="flex-col" space="lg">
         <ui-message
-            v-if="!isUserAlreadyStripeVerifiedAccount"
+            v-if="!isUserStripeVerified"
             title="Des informations manquent à votre dossier de tuteur, veuillez le finaliser avant de pouvoir recevoir des fonds"
             color="blue"
             size="sm"
@@ -9,7 +9,7 @@
         />
 
         <UiButton
-            v-if="!isUserAlreadyStripeVerifiedAccount"
+            v-if="!isUserStripeVerified"
             :loading="loading"
             @click="createExpressStripeAccount()"
             >{{
@@ -30,28 +30,15 @@
 
 <script lang="ts" setup>
 import axios from "axios";
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { UserData } from "../../store/user";
 
 const props = defineProps<{
     userInfos: UserData;
+    isUserStripeVerified: boolean;
 }>();
 
-const isUserAlreadyStripeVerifiedAccount = ref(false);
 const loading = ref(false);
-
-onMounted(async () => {
-    if (!!props.userInfos.stripe_account_id) {
-        const { data: stripeUserData } = await axios.get(
-            `${import.meta.env.VITE_STRAPI_URL}/api/webhook/status/${
-                props.userInfos.stripe_account_id
-            }`
-        );
-
-        isUserAlreadyStripeVerifiedAccount.value =
-            stripeUserData.isUserFullyVerified;
-    }
-});
 
 async function createExpressStripeAccount() {
     loading.value = true;
@@ -77,6 +64,4 @@ async function createExpressStripeAccount() {
         loading.value = false;
     }
 }
-
-defineExpose({ isUserAlreadyStripeVerifiedAccount });
 </script>

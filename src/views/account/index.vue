@@ -71,8 +71,10 @@
                                 </template>
 
                                 <AuthStripeTutorDetails
-                                    ref="authStripeTutor"
                                     :user-infos="user.data"
+                                    :is-user-stripe-verified="
+                                        isUserAlreadyStripeVerifiedAccount
+                                    "
                                 />
                             </n-tab-pane>
                         </n-tabs>
@@ -151,15 +153,24 @@ const isUserValidTutor = computed(
     () => user.data?.did_user_fill_credit_infos !== null
 );
 
-onMounted(() => {
-    user.handleUserSessionInfos();
-});
+onMounted(() => user.handleUserSessionInfos());
 
-const authStripeTutor = ref<{ isUserAlreadyStripeVerifiedAccount: boolean }>();
-
-const isUserAlreadyStripeVerifiedAccount = computed(
-    () => authStripeTutor.value?.isUserAlreadyStripeVerifiedAccount
+const { data: stripeUserData } = useQuery(
+    ["stripeUserData"],
+    () =>
+        axios.get(
+            `${import.meta.env.VITE_STRAPI_URL}/api/webhook/status/${
+                user.data.stripe_account_id
+            }`
+        ),
+    { enabled: computed(() => !!user.data?.stripe_account_id) }
 );
+
+const isUserAlreadyStripeVerifiedAccount = computed(() => {
+    if (!stripeUserData.value) return false;
+
+    return stripeUserData.value.data.isUserFullyVerified;
+});
 
 const filteredUserData = computed(() => {
     if (!user.data) return {};
