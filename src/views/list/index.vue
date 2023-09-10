@@ -53,9 +53,11 @@
 
 <script lang="ts" setup>
 import { User } from "@supabase/supabase-js";
+import axios from "axios";
 import { debounce } from "lodash";
 import { computed, onMounted, ref, watch } from "vue";
-import { supabase, supabaseAdmin } from "../../supabase";
+import { supabase } from "../../supabase";
+import { userSession } from "../../types/userSession";
 
 const search = ref("");
 const users =
@@ -65,11 +67,16 @@ const usersWithEmail = ref<User[]>([]);
 const loading = ref(false);
 
 onMounted(async () => {
-    const {
-        data: { users: usersFetchedWithEmail },
-    } = await supabaseAdmin.auth.admin.listUsers();
+    const { data: usersFetchedWithEmail } = await axios.get(
+        `${import.meta.env.VITE_STRAPI_URL}/api/webhook/users`,
+        {
+            params: {
+                userId: userSession.value?.user.id,
+            },
+        }
+    );
 
-    usersWithEmail.value = usersFetchedWithEmail;
+    usersWithEmail.value = usersFetchedWithEmail.supabaseUsers;
 });
 
 const fetch = async () => {
