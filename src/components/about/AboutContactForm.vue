@@ -1,21 +1,26 @@
 <template>
     <ui-wrapper color="blue" class="w-full" padded rounded="sm">
         <ui-level class="flex-col" vertical-align="top" space="lg">
-            <ui-level class="w-full">
+            <ui-level
+                class="w-full"
+                :class="{ 'flex-col': isMobile }"
+                :vertical-align="isMobile ? 'top' : undefined"
+            >
                 <ui-title size="2xl">Vous souhaitez...</ui-title>
+
                 <n-radio-group
                     v-model:value="formData.subject"
-                    class="w-1/3"
                     size="large"
+                    :class="{ 'w-1/3': !isMobile }"
                 >
-                    <n-radio value="mentor" class="text-white mr-4">
-                        Devenir mentor
+                    <n-radio value="trainingProposal" class="pb-2">
+                        En tant que mentor
                     </n-radio>
                     <n-radio value="other"> Autre </n-radio>
                 </n-radio-group>
             </ui-level>
 
-            <ui-level class="w-full" space="2xl">
+            <ui-level class="w-full" :space="isMobile ? 'lg' : '2xl'">
                 <ui-level class="flex-col w-3/4" vertical-align="top">
                     <ui-input
                         v-model="formData.lastName"
@@ -78,6 +83,10 @@ import axios from "axios";
 import { NRadio, NRadioGroup } from "naive-ui";
 import { computed, ref } from "vue";
 import { headerOptions } from "../../composables/auth/useHeadersToken";
+
+defineProps<{
+    isMobile: boolean;
+}>();
 
 const formData = ref({
     subject: "",

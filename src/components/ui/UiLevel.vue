@@ -21,6 +21,8 @@
             },
             {
                 'justify-between': !align,
+                'justify-evenly': align === 'evenly',
+                'justify-around': align === 'around',
                 'justify-center': align === 'center',
                 'justify-end': align === 'right',
                 'justify-start': align === 'left',

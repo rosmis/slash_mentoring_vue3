@@ -1,6 +1,6 @@
 <template>
     <ui-page>
-        <ui-level space="none" class="h-full bg-[#F9F9FB]">
+        <ui-level v-if="!isMobile" space="none" class="h-full bg-[#F9F9FB]">
             <ui-level class="bg-white flex-col h-full shadow-lg w-1/2 z-1">
                 <ui-wrapper padded class="w-[70%]">
                     <ui-title size="3xl" color="dark-blue" class="mb-4"
@@ -132,6 +132,17 @@
                 </ui-wrapper>
             </ui-level>
         </ui-level>
+
+        <UiLevel v-else align="center" class="h-screen-sm mx-4">
+            <ui-message
+                title="La version mobile de votre profil est en cours de construction,
+            veuillez vous connecter sur desktop pour modifier vos informations
+            personnelles"
+                color="blue"
+                size="sm"
+                icon="information"
+            />
+        </UiLevel>
     </ui-page>
 </template>
 
@@ -141,6 +152,7 @@ import { NTabPane, NTabs } from "naive-ui";
 import { computed, onMounted, ref } from "vue";
 import { useQuery } from "vue-query";
 import { headerOptions } from "../../composables/auth/useHeadersToken";
+import { useMobileBreakpoint } from "../../composables/mobile/useMobileBreakpoints";
 import { userStore } from "../../store/user";
 import { userSession } from "../../types/userSession";
 
@@ -148,6 +160,7 @@ const user = userStore();
 
 const selectedUserInfo = ref<{ userInfo: string; userInfoTitle: string }>(null);
 const showPreviousTrainings = ref(false);
+const isMobile = useMobileBreakpoint("md");
 
 const isUserValidTutor = computed(
     () => user.data?.did_user_fill_credit_infos !== null

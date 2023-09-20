@@ -1,12 +1,19 @@
 <template>
     <ui-wrapper color="blue" padded>
         <ui-level
-            class="mx-20"
+            align="around"
             :class="{
                 'flex-col': isMobile,
             }"
+            :space="isMobile ? 'xl' : undefined"
+            :vertical-align="isMobile ? 'top' : undefined"
         >
-            <ui-level class="flex-col" vertical-align="top" space="sm">
+            <ui-level
+                class="flex-col"
+                vertical-align="top"
+                space="sm"
+                :class="{ 'w-full': isMobile }"
+            >
                 <router-link :to="{ name: 'Home' }">
                     <img
                         src="../../assets/slash_logo_white.png"
@@ -15,44 +22,21 @@
                     />
                 </router-link>
                 <p class="text-white text-xs">
-                    ©2020 - 2023 Slash Mentoring, <br />
+                    ©2022 - 2023 Slash Mentoring, <br />
                     Tous droits réservés
                 </p>
             </ui-level>
 
             <ui-level
-                align="left"
-                space="2xl"
-                :class="{
-                    'flex-col': isMobile,
-                }"
+                :align="isMobile ? undefined : 'left'"
+                vertical-align="top"
+                :space="isMobile ? undefined : '2xl'"
+                :class="{ 'w-full': isMobile }"
             >
                 <ui-level class="flex-col" vertical-align="top" space="sm">
-                    <h1 class="font-bold text-white text-xl mb-4 uppercase">
-                        À propos
-                    </h1>
-
-                    <router-link
-                        :to="{ name: 'About' }"
-                        class="text-white hover:underline"
-                        >Notre histoire</router-link
-                    >
-                    <router-link
-                        :to="{ name: 'About' }"
-                        class="text-white hover:underline"
-                        >Nous rejoindre</router-link
-                    >
-                    <router-link
-                        :to="{ name: 'About' }"
-                        class="text-white hover:underline"
-                        >Nous contacter</router-link
-                    >
-                </ui-level>
-
-                <ui-level class="flex-col" vertical-align="top" space="sm">
-                    <h1 class="font-bold text-white text-xl mb-4 uppercase">
+                    <h2 class="font-bold text-white text-xl mb-4 uppercase">
                         Boarding
-                    </h1>
+                    </h2>
 
                     <router-link
                         :to="{ name: 'About' }"
@@ -60,36 +44,31 @@
                         >Notre histoire</router-link
                     >
                     <router-link
-                        :to="{ name: 'About' }"
+                        :to="{ name: 'Dashboard' }"
                         class="text-white hover:underline"
                         >Nous rejoindre</router-link
                     >
                     <router-link
-                        :to="{ name: 'About' }"
+                        :to="{ name: 'About', hash: '#contact' }"
                         class="text-white hover:underline"
                         >Nous contacter</router-link
                     >
                 </ui-level>
 
                 <ui-level class="flex-col" vertical-align="top" space="sm">
-                    <h1 class="font-bold text-white text-xl mb-4 uppercase">
+                    <h2 class="font-bold text-white text-xl mb-4 uppercase">
                         Help
-                    </h1>
+                    </h2>
 
                     <router-link
                         :to="{ name: 'About' }"
                         class="text-white hover:underline"
-                        >Notre histoire</router-link
+                        >Politique de confidentialité</router-link
                     >
                     <router-link
                         :to="{ name: 'About' }"
                         class="text-white hover:underline"
-                        >Nous rejoindre</router-link
-                    >
-                    <router-link
-                        :to="{ name: 'About' }"
-                        class="text-white hover:underline"
-                        >Nous contacter</router-link
+                        >Mentions légales</router-link
                     >
                 </ui-level>
             </ui-level>

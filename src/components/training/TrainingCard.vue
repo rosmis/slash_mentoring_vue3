@@ -47,12 +47,12 @@
                     <div
                         v-if="
                             training.attributes.trainer.data &&
-                            training.attributes.trainer.data.attributes
+                            training.attributes.trainer.data?.attributes
                                 .profilePicture.data
                         "
                         class="bg-cover bg-no-repeat rounded-full h-12 ring-white ring-2 w-12"
                         :style="{
-                            backgroundImage: `url(${training.attributes.trainer.data.attributes.profilePicture.data?.attributes.url})`,
+                            backgroundImage: `url(${training.attributes?.trainer.data?.attributes.profilePicture.data?.attributes.url})`,
                         }"
                     ></div>
 
@@ -66,7 +66,7 @@
                         }"
                     >
                         {{
-                            training.attributes.trainer.data.attributes.firstName
+                            training.attributes.trainer.data.attributes?.firstName
                                 .charAt(0)
                                 .toUpperCase()
                         }}

@@ -5,17 +5,21 @@
             Une expérience d’apprentissage immersive et interactive
         </h3>
 
-        <ui-level>
+        <UiLevel :class="{ 'flex-col': isMobile }">
             <AboutOfferCard
                 v-for="cardContent in cardsContent"
                 :key="cardContent.icon"
                 :card-content="cardContent"
             />
-        </ui-level>
+        </UiLevel>
     </ui-wrapper>
 </template>
 
 <script lang="ts" setup>
+defineProps<{
+    isMobile: boolean;
+}>();
+
 const cardsContent = [
     {
         icon: "camera",

@@ -6,12 +6,13 @@
                 backgroundImage: `linear-gradient(0deg, rgba(26,9,140,0.4) 0%, rgba(16,14,81,0.4) 100%),
                             url(https://res.cloudinary.com/dlirhziq5/image/upload/v1682855827/about_banner_gseyqo.png)`,
             }"
+            :class="{ 'p-8': isMobile }"
             align="center"
         >
-            <ui-title class="font-bold" size="3xl">
+            <ui-title class="font-bold text-center" size="3xl">
                 Bienvenue sur Slash Mentoring
             </ui-title>
-            <p class="text-white text-lg">
+            <p class="text-white text-lg text-center">
                 Apprenez avec des cours pour les étudiants, par les étudiants
             </p>
         </ui-level>
@@ -25,9 +26,10 @@
                 </h3>
             </div>
 
-            <ui-level space="lg">
+            <ui-level space="lg" :class="{ 'flex-col': isMobile }">
                 <ui-level
                     class="bg-no-repeat bg-cover flex-col rounded-2xl h-80"
+                    :class="{ '!h-50': isMobile }"
                     vertical-align="top"
                     align="right"
                     space="lg"
@@ -49,6 +51,7 @@
                 </ui-level>
                 <ui-level
                     class="bg-no-repeat bg-cover flex-col rounded-2xl h-80 backgroundPosition"
+                    :class="{ '!h-50': isMobile }"
                     vertical-align="top"
                     align="right"
                     space="lg"
@@ -71,6 +74,7 @@
                 </ui-level>
                 <ui-level
                     class="bg-no-repeat bg-cover flex-col rounded-2xl h-80 backgroundPosition"
+                    :class="{ '!h-50': isMobile }"
                     vertical-align="top"
                     align="right"
                     space="lg"
@@ -107,6 +111,10 @@
 
 <script lang="ts" setup>
 import { useUserRedirection } from "../../composables/auth/useUserRedirection";
+
+defineProps<{
+    isMobile: boolean;
+}>();
 </script>
 
 <style scoped>

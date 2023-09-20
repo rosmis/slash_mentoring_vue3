@@ -6,11 +6,11 @@
         </div>
 
         <n-carousel
-            :slides-per-view="3"
+            :slides-per-view="isMobile ? 1 : 3"
             centered-slides
             draggable
             show-arrow
-            :default-index="1"
+            :default-index="isMobile ? 0 : 1"
             prev-slide-style="filter: blur(3px); backgroundImage: linear-gradient(0deg, rgba(16,14,81,0.3) 100%) 0%, rgba(16,14,81,0.3) 100%)"
             next-slide-style="filter: blur(3px);"
             class="carousel"
@@ -20,7 +20,10 @@
                 :key="`trainer-${index}`"
             >
                 <n-carousel-item>
-                    <AboutTrainerCard :trainer="trainer" />
+                    <AboutTrainerCard
+                        :trainer="trainer"
+                        :is-mobile="isMobile"
+                    />
                 </n-carousel-item>
             </template>
 
@@ -64,6 +67,7 @@ import { NCarousel } from "naive-ui";
 
 defineProps<{
     trainers: any;
+    isMobile: boolean;
 }>();
 </script>
 

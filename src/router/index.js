@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useSessionUserInfos } from "../composables/auth/useSessionUserInfos";
 import { supabase } from "../supabase";
+import Home from "../views/Home.vue";
 import About from "../views/about/index.vue";
 import Account from "../views/account/index.vue";
 import Auth from "../views/auth/index.vue";
 import Information from "../views/auth/information/index.vue";
 import SignUp from "../views/auth/signup/index.vue";
 import Dashboard from "../views/dashboard/index.vue";
-import Home from "../views/Home.vue";
 import List from "../views/list/index.vue";
 import Training from "../views/training/_trainingId/index.vue";
 
@@ -28,6 +28,20 @@ const router = createRouter({
         { path: "/dashboard", name: "Dashboard", component: Dashboard },
         { path: "/training/:id", name: "Training", component: Training },
     ],
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition;
+        }
+
+        if (to.hash) {
+            console.log("hash", savedPosition);
+            return {
+                el: to.hash,
+                behavior: "smooth",
+            };
+        }
+        return { x: 0, y: 0 };
+    },
 });
 
 const publicRoutes = ["Home", "About", "SignUp"];

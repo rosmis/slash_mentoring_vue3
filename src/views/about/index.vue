@@ -1,11 +1,18 @@
 <template>
     <ui-page>
         <ui-level class="flex-col">
-            <AboutHeader @redirect="scroll(contactForm)" />
-            <AboutOffer />
+            <AboutHeader
+                :is-mobile="isMobile"
+                @redirect="scroll(contactForm)"
+            />
+            <AboutOffer :is-mobile="isMobile" />
         </ui-level>
 
-        <AboutTrainers v-if="trainers" :trainers="trainers.data.data" />
+        <AboutTrainers
+            v-if="trainers && trainers.data.data.length"
+            :trainers="trainers.data.data"
+            :is-mobile="isMobile"
+        />
 
         <ui-level align="center">
             <ui-button @click="useUserRedirection('Dashboard')"
@@ -13,10 +20,10 @@
             >
         </ui-level>
 
-        <AboutQA />
+        <!-- <AboutQA /> -->
 
-        <div ref="contactForm">
-            <AboutContact />
+        <div ref="contactForm" id="contact">
+            <AboutContact :is-mobile="isMobile" />
         </div>
     </ui-page>
 </template>
@@ -27,6 +34,9 @@ import { nextTick, ref } from "vue";
 import { useQuery } from "vue-query";
 import { headerOptions } from "../../composables/auth/useHeadersToken";
 import { useUserRedirection } from "../../composables/auth/useUserRedirection";
+import { useMobileBreakpoint } from "../../composables/mobile/useMobileBreakpoints";
+
+const isMobile = useMobileBreakpoint("md");
 
 const { data: trainers } = useQuery(
     ["trainings"],
