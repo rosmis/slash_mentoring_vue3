@@ -4,7 +4,7 @@
     <!-- <Transition name="app-sidebar"> -->
     <UiWrapper
         color="white"
-        class="top-0 right-0 bottom-0 w-1/2 z-40 fixed hidden"
+        class="top-0 right-0 bottom-0 w-3/4 z-40 fixed hidden"
         ref="wrapper"
         :class="{
             '!block': isSidebarOpened,

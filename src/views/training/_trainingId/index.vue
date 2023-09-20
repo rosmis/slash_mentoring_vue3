@@ -1,17 +1,36 @@
 <template>
     <ui-page>
-        <UiLevel class="h-screen-md" space="none">
+        <UiLevel
+            class="h-screen-md"
+            space="none"
+            :class="{ 'flex-col-reverse': isMobile }"
+        >
             <UiLevel
                 v-if="training"
-                class="flex-col h-full px-8 w-3/5 relative"
-                align="center"
+                class="flex-col h-full w-full px-8 relative"
+                :align="isMobile ? 'left' : 'center'"
                 space="lg"
+                :class="{ '!w-3/5': !isMobile, 'pt-8': isMobile }"
             >
+                <UiLevel
+                    v-if="isMobile"
+                    space="sm"
+                    class="cursor-pointer top-4 left-4 absolute"
+                    @click="router.back()"
+                >
+                    <mdicon
+                        name="arrow-left"
+                        width="15"
+                        class="text-[#313A56]"
+                    />
+                    <p class="text-[#313A56]">Retour</p>
+                </UiLevel>
+
                 <UiTitle size="4xl" color="dark-blue">{{
                     training.data.data.attributes.title
                 }}</UiTitle>
 
-                <UiLevel space="lg">
+                <UiLevel space="lg" wrapped align="center">
                     <TrainingInfoCard
                         v-for="(card, index) in trainingCardContent"
                         :key="`card-${index}`"
@@ -57,7 +76,10 @@
             </UiLevel>
             <UiLoader v-else />
 
-            <UiLevel class="h-full w-2/5">
+            <UiLevel
+                class="h-1/2 w-full"
+                :class="{ '!w-2/5 !h-full': !isMobile }"
+            >
                 <div
                     v-if="training"
                     class="bg-no-repeat bg-cover h-full w-full"
@@ -78,17 +100,21 @@ import moment from "moment";
 import { useMessage } from "naive-ui";
 import { computed, onMounted, ref } from "vue";
 import { useQuery } from "vue-query";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { headerOptions } from "../../../composables/auth/useHeadersToken";
+import { useMobileBreakpoint } from "../../../composables/mobile/useMobileBreakpoints";
 import { useUserTraining } from "../../../composables/trainings/useUserTraining";
 import { userStore } from "../../../store/user";
 import { userSession } from "../../../types/userSession";
 
 const route = useRoute();
+const router = useRouter();
 const user = userStore();
 const message = useMessage();
 
 const { userTraining, refetchUserTraining } = useUserTraining(+route.params.id);
+
+const isMobile = useMobileBreakpoint("md");
 
 const userTrainingSessionId = computed(() => {
     if (!userTraining.value || !userTraining.value?.data.data.length)
