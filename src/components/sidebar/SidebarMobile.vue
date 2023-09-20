@@ -14,7 +14,12 @@
             <mdicon name="close" width="40" @click="isSidebarOpened = false" />
         </UiLevel>
 
-        <UiLevel class="flex-col h-full pb-[30%]" align="center" space="xl">
+        <UiLevel
+            class="flex-col h-full pb-[30%]"
+            align="center"
+            space="xl"
+            vertical-align="top"
+        >
             <router-link
                 v-for="navLink in navLinks"
                 :to="{ name: navLink.link, params: undefined }"
@@ -34,7 +39,6 @@
 
             <router-link
                 v-else
-                class="py-2 px-4"
                 :to="{ name: 'Account' }"
                 @click="isSidebarOpened = false"
             >
