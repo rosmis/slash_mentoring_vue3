@@ -1,6 +1,7 @@
 <template>
     <div
-        class="flex flex-col shadow-r min-h-90vh py-32 w-6/10 justify-center items-center"
+        class="flex flex-col w-full min-h-90vh justify-start items-center"
+        :class="{ 'shadow-r !justify-center py-32': !isMobile }"
     >
         <div class="w-88">
             <UiTitle color="dark-blue">Récapitulatif</UiTitle>
@@ -83,6 +84,7 @@ const props = defineProps<{
     user: Record<string, any>;
     domains: SelectMixedOption;
     classes: Array<SelectOption | SelectGroupOption>;
+    isMobile: boolean;
 }>();
 
 onMounted(async () => {

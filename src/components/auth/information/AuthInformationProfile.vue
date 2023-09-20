@@ -1,7 +1,8 @@
 <template>
     <div
-        class="flex flex-col shadow-r min-h-90vh w-6/10 justify-center items-center"
         v-if="modelValue"
+        class="flex flex-col w-full min-h-90vh justify-start items-center"
+        :class="{ 'shadow-r !justify-center': !isMobile }"
     >
         <div class="w-88">
             <UiTitle color="dark-blue">Finalisation de votre compte</UiTitle>
@@ -47,7 +48,7 @@
         <div class="mt-8">
             <p class="text-sm text-gray-800">Votre photo de profil</p>
             <div
-                class="rounded-xl flex shadow p-8 shadow-2xl shadow-gray-100 w-88 items-center justify-around"
+                class="rounded-xl flex p-8 shadow-gray-100 w-88 items-center justify-around"
             >
                 <div
                     class="border rounded-full bg-gray-100 border-blue-900 border-2 h-24 w-24"
@@ -75,6 +76,7 @@ import { supabase } from "../../../supabase";
 
 const props = defineProps<{
     modelValue: any;
+    isMobile: boolean;
 }>();
 const emit = defineEmits(["update:modelValue"]);
 

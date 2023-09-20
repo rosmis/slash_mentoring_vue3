@@ -1,6 +1,7 @@
 <template>
     <div
-        class="flex flex-col shadow-r min-h-90vh w-6/10 justify-center items-center"
+        class="flex flex-col w-full min-h-90vh justify-start items-center"
+        :class="{ 'shadow-r !justify-center': !isMobile }"
     >
         <div class="w-88">
             <UiTitle color="dark-blue">Dernière étape</UiTitle>
@@ -42,6 +43,7 @@ const props = defineProps<{
     modelValue: Record<string, any>;
     domains: SelectMixedOption;
     classes: Array<SelectOption | SelectGroupOption>;
+    isMobile: boolean;
 }>();
 
 const emit = defineEmits(["update:modelValue", "newDomain"]);

@@ -1,22 +1,86 @@
 <template>
     <div class="flex w-full">
-        <AuthInformationProfile
-            v-if="currentStep === 'profile'"
-            v-model="user"
-        />
-        <AuthInformationExperience
-            v-if="currentStep === 'experience'"
-            v-model="user"
-            :domains="domains"
-            :classes="classes"
-        ></AuthInformationExperience>
+        <UiLevel
+            class="flex-col w-full relative"
+            vertical-align="top"
+            :space="isMobile ? 'lg' : undefined"
+            :class="{ '!w-6/10': !isMobile }"
+        >
+            <UiLevel v-if="isMobile" class="w-full p-6" align="center">
+                <n-steps
+                    horizontal
+                    class="flex-wrap w-3/4 gap-4"
+                    :current="currentStepId"
+                    size="small"
+                >
+                    <n-step title="Votre profil"></n-step>
+                    <n-step title="Votre expérience"></n-step>
+                    <n-step title="Récapitulatif: Votre compte"></n-step>
+                </n-steps>
+            </UiLevel>
 
-        <AuthInformationSummary
-            v-if="currentStep === 'summary'"
-            :user="user"
-        ></AuthInformationSummary>
+            <AuthInformationProfile
+                v-if="currentStep === 'profile'"
+                v-model="user"
+                :is-mobile="isMobile"
+            />
+            <AuthInformationExperience
+                v-if="currentStep === 'experience'"
+                v-model="user"
+                :domains="domains"
+                :classes="classes"
+                :is-mobile="isMobile"
+            ></AuthInformationExperience>
 
-        <div class="flex flex-col mt-30vh w-4/10 items-center">
+            <AuthInformationSummary
+                v-if="currentStep === 'summary'"
+                :user="user"
+                :is-mobile="isMobile"
+            ></AuthInformationSummary>
+
+            <div
+                v-if="isMobile"
+                class="bg-white flex w-full p-4 bottom-0 gap-4 items-center justify-center sticky"
+            >
+                <button
+                    @click="currentStepId -= 1"
+                    :disabled="currentStepId === 1"
+                    :class="{
+                        'border-blue-200': currentStepId === 1,
+                        'text-blue-200': currentStepId === 1,
+                        'cursor-pointer': currentStepId !== 1,
+                    }"
+                    class="border rounded-lg border-blue-900 py-2 px-4 text-blue-800 w-40"
+                >
+                    <span class="mr-2">&lt;</span> Précédent
+                </button>
+                <button
+                    v-if="currentStepId < 3"
+                    @click="goToNextStep()"
+                    :disabled="currentStepId === 3"
+                    :class="{
+                        'border-blue-200': currentStepId === 3,
+                        'text-blue-200': currentStepId === 3,
+                        'cursor-pointer': currentStepId !== 3,
+                    }"
+                    class="border rounded-lg border-blue-900 py-2 px-4 text-blue-800 w-40"
+                >
+                    Suivant <span class="ml-2">></span>
+                </button>
+                <button
+                    v-else
+                    @click="save()"
+                    class="border rounded-lg border-blue-900 ml-8 py-2 px-4 text-blue-800 w-40"
+                >
+                    Enregistrer
+                </button>
+            </div>
+        </UiLevel>
+
+        <div
+            v-if="!isMobile"
+            class="flex flex-col w-4/10 items-center justify-center"
+        >
             <n-steps
                 vertical
                 class="w-1/2"
@@ -70,11 +134,13 @@
 import { NStep, NSteps } from "naive-ui";
 import { computed, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
+import { useMobileBreakpoint } from "../../../composables/mobile/useMobileBreakpoints";
 import { supabase } from "../../../supabase";
 import { classes } from "../../../types/classes";
 import { domains } from "../../../types/domains";
 
 const router = useRouter();
+const isMobile = useMobileBreakpoint("md");
 
 onMounted(async () => {
     const { data: authUser } = await supabase.auth.getUser();
@@ -200,6 +266,10 @@ function checkRequiredFields() {
 <style>
 .shadow-r {
     box-shadow: 10px 0 10px -2px rgb(228, 228, 228);
+}
+
+.translate {
+    transform: translateX(-50%);
 }
 
 .image {
