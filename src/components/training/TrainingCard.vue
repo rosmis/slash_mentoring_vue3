@@ -1,5 +1,8 @@
 <template>
-    <router-link :to="{ name: 'Training', params: { id: training.id } }">
+    <router-link
+        :to="{ name: 'Training', params: { id: training.id } }"
+        class="w-full"
+    >
         <div
             v-if="training"
             rounded
@@ -24,7 +27,10 @@
                 </p>
             </ui-level>
 
-            <div class="rounded-t-2xl h-4/6 overflow-hidden">
+            <div
+                v-if="training.attributes.backgroundImage"
+                class="rounded-t-2xl h-4/6 overflow-hidden"
+            >
                 <div
                     class="bg-cover h-full hover"
                     :style="{

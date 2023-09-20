@@ -4,9 +4,12 @@
         :style="{
             'background-image': `linear-gradient(0deg, rgba(26,9,140,0.4) 0%, rgba(16,14,81,0.4) 100%), url(${backgroundUrl})`,
         }"
+        :class="{
+            'p-4': isMobile,
+        }"
     >
         <template v-if="title && content">
-            <h1 class="font-semibold text-white text-2xl">
+            <h1 class="font-semibold text-white text-center text-2xl">
                 {{ title }}
             </h1>
             <p class="text-white text-xl text-center" v-html="content"></p>
@@ -21,10 +24,14 @@
 </template>
 
 <script lang="ts" setup>
+import { useMobileBreakpoint } from "../../composables/mobile/useMobileBreakpoints";
+
 defineProps<{
     title?: string;
     content?: string;
     contentImage?: string;
     backgroundUrl: string;
 }>();
+
+const isMobile = useMobileBreakpoint("md");
 </script>

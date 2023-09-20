@@ -6,7 +6,7 @@
             class="w-full"
             icon="account-clock-outline"
             size="lg"
-            @click="isSuggestedTrainingModalOpen = true"
+            @click="$emit('modal-open')"
         >
             Proposer un nouveau cours
         </ui-button>
@@ -68,18 +68,12 @@
                 <p v-else>Vous n'êtes inscrit à aucuns cours</p>
             </ui-level>
         </ui-wrapper>
-
-        <ui-modal v-model="isSuggestedTrainingModalOpen">
-            <TrainingSuggestionModal
-                @close="isSuggestedTrainingModalOpen = false"
-            />
-        </ui-modal>
     </ui-level>
 </template>
 
 <script lang="ts" setup>
 import moment from "moment";
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import { useFrenchFormattedDate } from "../../composables/utils/useFrenchFormattedDate";
 import { useTrainingCardColors } from "../../composables/utils/useTrainingCardColors";
 
@@ -89,8 +83,6 @@ const props = defineProps<{
     showPreviousTrainings?: boolean;
     hideTutoringButton?: boolean;
 }>();
-
-const isSuggestedTrainingModalOpen = ref(false);
 
 // TODO type this shit correctly
 const sortedSubscribedDates = computed(() => [

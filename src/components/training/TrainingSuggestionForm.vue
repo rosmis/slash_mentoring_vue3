@@ -1,12 +1,17 @@
 <template>
     <ui-wrapper color="blue" class="w-full" padded rounded="sm">
         <ui-level class="flex-col" vertical-align="top" space="lg">
-            <ui-level class="w-full">
+            <ui-level
+                class="w-full"
+                :class="{ 'flex-col': isMobile }"
+                :vertical-align="isMobile ? 'top' : undefined"
+            >
                 <ui-title size="2xl">Vous souhaitez...</ui-title>
+
                 <n-radio-group
                     v-model:value="formData.subject"
-                    class="w-1/3"
                     size="large"
+                    :class="{ 'w-1/3': !isMobile }"
                 >
                     <n-radio value="trainingProposal" class="pb-2">
                         En tant que mentor
@@ -15,7 +20,7 @@
                 </n-radio-group>
             </ui-level>
 
-            <ui-level class="w-full" space="2xl">
+            <ui-level class="w-full" :space="isMobile ? 'lg' : '2cl'">
                 <ui-level class="flex-col w-3/4" vertical-align="top">
                     <ui-input
                         v-model="formData.lastName"
@@ -77,6 +82,10 @@ import { NRadio, NRadioGroup, NSelect } from "naive-ui";
 import { computed, ref } from "vue";
 import { headerOptions } from "../../composables/auth/useHeadersToken";
 import { classes } from "../../types/classes";
+
+defineProps<{
+    isMobile: boolean;
+}>();
 
 const emit = defineEmits<{
     (event: "close"): void;

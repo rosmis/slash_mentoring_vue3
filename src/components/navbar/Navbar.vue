@@ -1,5 +1,5 @@
 <template>
-    <ui-wrapper class="z-30 navbar relative">
+    <ui-wrapper class="z-30 navbar">
         <ui-level>
             <router-link :to="{ name: 'Home' }">
                 <img
@@ -8,25 +8,34 @@
                     class="w-20"
                 />
             </router-link>
-            <ui-level>
-                <router-link
-                    v-for="navLink in navLinks"
-                    :to="{ name: navLink.link }"
-                >
-                    {{ navLink.name }}
-                </router-link>
-            </ui-level>
-            <router-link
-                v-if="!userSession"
-                class="rounded-lg bg-blue-800 text-white py-2 px-4"
-                :to="{ name: 'Auth' }"
-            >
-                Se connecter
-            </router-link>
 
-            <NavbarDropdown
+            <template v-if="!isMobile">
+                <ui-level>
+                    <router-link
+                        v-for="navLink in navLinks"
+                        :to="{ name: navLink.link, params: undefined }"
+                    >
+                        {{ navLink.name }}
+                    </router-link>
+                </ui-level>
+                <router-link
+                    v-if="!userSession"
+                    class="rounded-lg bg-blue-800 text-white py-2 px-4"
+                    :to="{ name: 'Auth' }"
+                >
+                    Se connecter
+                </router-link>
+
+                <NavbarDropdown
+                    v-else
+                    :user-info-session="user.data"
+                    :avatar-url="avatarUrl"
+                />
+            </template>
+
+            <SidebarMobile
                 v-else
-                :user-info-session="user.data"
+                :user-data="user.data"
                 :avatar-url="avatarUrl"
             />
         </ui-level>
@@ -36,6 +45,7 @@
 <script lang="ts" setup>
 import { useMessage } from "naive-ui";
 import { computed, onMounted } from "vue";
+import { useMobileBreakpoint } from "../../composables/mobile/useMobileBreakpoints";
 import { userStore } from "../../store/user";
 import { userSession } from "../../types/userSession";
 
@@ -43,6 +53,8 @@ const user = userStore();
 window.$message = useMessage();
 
 onMounted(() => user.handleUserSessionInfos());
+
+const isMobile = useMobileBreakpoint("md");
 
 const avatarUrl = computed(() => user.avatar_img);
 
@@ -56,14 +68,6 @@ const navLinks = computed(() => {
             name: "À propos",
             link: "About",
         },
-        // {
-        //   name: "Cours",
-        //   link: "./learning",
-        // },
-        // {
-        //   name: "À propos",
-        //   link: "./",
-        // },
     ];
 });
 </script>

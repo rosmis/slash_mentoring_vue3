@@ -1,16 +1,35 @@
 <template>
-    <ui-level class="h-80 w-full" space="lg">
-        <ui-wrapper class="h-full w-2/3" color="blue" rounded>
-            <h1 class="font-semibold text-white text-2xl">
-                Bonjour, {{ userInfos.full_name }}
-            </h1>
-            <h2 class="text-white text-xl">
-                Aujourd'hui, le {{ moment().locale("fr").format("LL") }}, vous
-                n'avez aucun cours de prévu.
-            </h2>
+    <ui-level class="h-80 w-full" space="lg" :class="{ '!h-60': isMobile }">
+        <ui-wrapper
+            class="h-full w-2/3"
+            color="blue"
+            rounded
+            :class="{
+                '!w-full': isMobile,
+            }"
+        >
+            <UiLevel class="flex-col" vertical-align="top" space="sm">
+                <h1
+                    class="font-semibold text-white text-2xl"
+                    :class="{
+                        '!text-xl': isMobile,
+                    }"
+                >
+                    Bonjour, {{ userInfos.full_name }}
+                </h1>
+                <h2
+                    class="text-white text-xl"
+                    :class="{
+                        '!text-base': isMobile,
+                    }"
+                >
+                    Aujourd'hui, le {{ moment().locale("fr").format("LL") }},
+                    vous n'avez aucun cours de prévu.
+                </h2>
+            </UiLevel>
         </ui-wrapper>
 
-        <ui-wrapper shadow rounded class="w-1/3">
+        <ui-wrapper v-if="!isMobile" shadow rounded class="w-1/3">
             <ui-title color="dark-blue" size="xl">Mon Agenda</ui-title>
             <VCalendar
                 :attributes="attrs"
@@ -36,6 +55,7 @@ const props = defineProps<{
         full_name: string;
     };
     subscribedTrainings: any[];
+    isMobile: boolean;
 }>();
 
 const emit = defineEmits<{

@@ -1,6 +1,11 @@
 <template>
     <ui-wrapper color="blue" padded>
-        <ui-level class="mx-20">
+        <ui-level
+            class="mx-20"
+            :class="{
+                'flex-col': isMobile,
+            }"
+        >
             <ui-level class="flex-col" vertical-align="top" space="sm">
                 <router-link :to="{ name: 'Home' }">
                     <img
@@ -15,7 +20,13 @@
                 </p>
             </ui-level>
 
-            <ui-level align="left" space="2xl">
+            <ui-level
+                align="left"
+                space="2xl"
+                :class="{
+                    'flex-col': isMobile,
+                }"
+            >
                 <ui-level class="flex-col" vertical-align="top" space="sm">
                     <h1 class="font-bold text-white text-xl mb-4 uppercase">
                         À propos
@@ -85,3 +96,9 @@
         </ui-level>
     </ui-wrapper>
 </template>
+
+<script lang="ts" setup>
+import { useMobileBreakpoint } from "../../composables/mobile/useMobileBreakpoints";
+
+const isMobile = useMobileBreakpoint("md");
+</script>
